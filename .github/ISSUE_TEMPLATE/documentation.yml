@@ -1,0 +1,102 @@
+name: "📚 Documentação"
+description: "Criar, melhorar ou atualizar a documentação do projeto"
+title: "[DOCS] "
+labels: ["documentation"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📚 Solicitação de Documentação
+
+        Use este template para solicitar **nova documentação** ou **atualizações em documentos existentes**.
+
+        Uma boa documentação ajuda a equipe e futuros colaboradores a entenderem como o sistema Pharmatech funciona.
+
+        **Dicas:**
+        - Seja claro sobre o que precisa ser documentado
+        - Inclua exemplos de código ou de uso se possível
+        - Mencione funcionalidades relacionadas (ex: Cadastro de Lotes, Alertas de Validade)
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 📌 Contexto
+      description: Descreva a situação que exige nova documentação ou atualização.
+      placeholder: |
+        Exemplo:
+        Foi adicionada uma nova lógica de alertas para medicamentos vencidos, mas não há explicação de como configurar o tempo de antecedência no banco de dados.
+    validations:
+      required: true
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: 🎯 Objetivo
+      description: Explique claramente o que a documentação deve cobrir.
+      placeholder: |
+        Exemplo:
+        Criar um guia explicando como o sistema calcula os alertas de validade e como o usuário pode visualizar isso no dashboard.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 📦 Escopo
+      description: Selecione o tipo de documentação que deve ser criada ou atualizada.
+      options:
+        - label: Guia do Usuário / Instruções de uso
+        - label: Explicação técnica (Lógica PHP/JS)
+        - label: Atualização do README
+        - label: Exemplos de código ou Queries SQL
+        - label: Documentação da API/Rotas
+        - label: Guia de instalação ou configuração do ambiente
+
+  - type: textarea
+    id: documentation_location
+    attributes:
+      label: 📍 Onde a documentação deve ficar?
+      description: Local onde este conteúdo será publicado.
+      placeholder: |
+        Exemplo:
+        - README.md
+        - Wiki do Projeto
+        - Pasta /docs do repositório
+        - Comentários no código-fonte
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: 🔗 Referências
+      description: Forneça links para issues relacionadas, arquivos no Figma ou referências técnicas.
+      placeholder: |
+        Exemplo:
+        - Issue relacionada: #45
+        - Protótipo no Figma: [link]
+        - Documentação do LGPD (referência para proteção de dados)
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: 🧩 Contexto Adicional
+      description: Algum detalhe extra que possa ajudar na criação da documentação?
+      placeholder: |
+        Exemplo:
+        A documentação deve destacar que a exclusão de lotes é permanente e afeta o relatório final.
+
+  - type: checkboxes
+    id: acceptance_criteria
+    attributes:
+      label: ✔ Critérios de Aceite
+      description: Condições para considerar esta tarefa de documentação como concluída.
+      options:
+        - label: Documentação criada ou devidamente atualizada
+        - label: Conteúdo revisado quanto à clareza e precisão técnica
+        - label: Documentação acessível para toda a equipe Nexus-Dev
+        - label: Exemplos práticos incluídos
