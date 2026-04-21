@@ -1,0 +1,30 @@
+.cadastro {
+  .form-cadastro {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 5rem;
+  }
+  .logo-cadastro {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 3.75rem;
+  }
+
+  p {
+    font-family: var(--font-roboto);
+    font-size: 1.75rem;
+    color: #434141;
+    font-weight: normal;
+    text-align: center;
+  }
+
+  .btn {
+    width: 100%;
+  }
+  .paragrafo-entrar {
+    margin-top: 5rem;
+  }
+}

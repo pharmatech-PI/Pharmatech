@@ -1,0 +1,21 @@
+:root {
+  --primary-color: #142952;
+  --title: #0f172a;
+  --accent-green: #1da260;
+  --accent-yellow: #f69f2d;
+  --accent-red: #ef4343;
+
+  --bg: #f8fafc;
+  --bg-green: #e7f5ef;
+  --bg-yellow: #fdf5e6;
+  --bg-red: #fdecec;
+  --input: #d9d9d9;
+  --input-secondary: #edf0f3;
+
+  --text-primary: #ffffff;
+  --text-secondary: #6e6f70;
+
+  --font-poppins: "Poppins", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+  --font-advent: "Advent Pro", sans-serif;
+}

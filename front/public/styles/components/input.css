@@ -1,0 +1,25 @@
+.input-wrapper input {
+  width: 100%;
+  padding: 20px 14px;
+  border-radius: 8px;
+  background-color: var(--input-secondary);
+  border: 2px solid var(--input-secondary);
+  transition: border-color 0.2s ease-in-out;
+}
+
+.input-wrapper {
+  margin-bottom: 30px;
+}
+
+.input-wrapper input:focus,
+.input-wrapper input:hover {
+  outline: none;
+  border: 2px solid var(--accent-green);
+  box-shadow: 0 0 5px rgba(var(--accent-green-rgb), 0.2);
+}
+
+.input-wrapper input::placeholder {
+  color: var(--text-secondary);
+  font-family: var(--font-roboto);
+  font-size: 1rem;
+}
