@@ -2,5 +2,6 @@
 @import "./base/global.css";
 @import "./components/input.css";
 @import "./components/button.css";
+@import "./components/sidebar.css";
 @import "./pages/cadastro.css";
 @import "./pages/login.css";
