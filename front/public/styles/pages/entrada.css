@@ -92,8 +92,8 @@
     padding: 12px 16px;
     border: 1px solid #e1e7ef;
     border-radius: 8px;
-    font-family: var(--font-poppins);
-    font-size: 14px;
+    font-family: var(--font-roboto);
+    font-size: 16px;
     outline: none;
     
     appearance: none;
@@ -109,6 +109,7 @@
 .grid-item input::placeholder {
     font-family: var(--font-roboto);
     font-weight: 400;
+    font-size: 16px;
 }
 
 
