@@ -2,6 +2,8 @@
   background-color: var(--primary-color);
   max-width: 270px;
   padding: 30px;
+  position: sticky;
+  top: 0;
   height: 100vh;
 
   .logo-sidebar img {
