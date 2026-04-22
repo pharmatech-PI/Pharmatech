@@ -19,3 +19,14 @@
   --font-roboto: "Roboto", sans-serif;
   --font-advent: "Advent Pro", sans-serif;
 }
+
+.layout-container {
+  display: flex;
+  min-height: 100%;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
