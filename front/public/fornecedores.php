@@ -15,7 +15,7 @@
             <main class="content-area">
             <div class="fornecedor-group">
                 <span class="fornecedor-title">Fornecedores</span>
-                <button class="btn">+ Novo Fornecedor</button>
+                <button class="btn" data-modal="abrir">+ Novo Fornecedor</button>
             </div>
         <div class="fornecedor-container-alinhamento">
         <div class="fornecedor-container">
@@ -76,6 +76,51 @@
         </div>
         </div>
     </div>
+
+      <section class="modal-container" data-modal="container">
+      <div class="modal">
+        <button data-modal="fechar" class="fechar">X</button>
+        <form action="">
+        <div class="input-modal">
+            <div class="input-wrapper">
+                <label for="name">Razão Social</label>
+                <input type="text" for="name" id="name" placeholder="Ex: Pharma Brasil Ltda"/>
+            </div>
+            <div class="input-wrapper">
+                <label for="fantasia">Nome Fantasia</label>
+                <input type="text" for="fantasia" id="fantasia" placeholder="Ex: PharmaBR"/>
+            </div>
+               <div class="input-wrapper">
+                <label for="cnpj">CNPJ</label>
+                <input type="text" for="cnpj" id="cnpj" placeholder="00.000.000/00000"/>
+            </div>
+               <div class="input-wrapper">
+                <label for="polo">Polo</label>
+                <input type="text" for="polo" id="polo" placeholder="Selecione"/>
+            </div>
+            <div class="input-wrapper">
+                <label for="localidade">localidade</label>
+                <input type="text" for="localidade" id="localidade" placeholder="Ex: São Paulo - SP"/>
+            </div>
+            <div class="input-wrapper">
+                <label for="status">status</label>
+                <input type="text" for="status" id="status" placeholder="Ativo"/>
+            </div>
+            <div class="input-wrapper input-modal-fornecedor">
+                <label for="email">E-mail de contato</label>
+                <input type="email" for="email" id="email" placeholder="contato@empresa.com"/>
+                <label for="phone">Telefone</label>
+                <input type="phone" for="phone" id="phone" placeholder="(00) 00000-0000"/>
+            </div>
+        </div>
+          <div class="btn-modal">
+            <button class="pagination-btn" type="submit">Cancelar</button>
+            <button class="btn" type="submit">Salvar produto</button>
+          </div>
+        
+        </form>
+      </div>
+    </section>
     <script type="module" src="/js/main.js"></script>
 </body>
 </html>

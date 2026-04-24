@@ -69,6 +69,14 @@
   }
 }
 
+.input-modal .input-wrapper.input-modal-fornecedor {
+  width: 100%;
+
+  & input {
+    margin-bottom: 30px;
+  }
+}
+
 .input-wrapper label {
   font-family: var(--font-poppins);
   display: block;
