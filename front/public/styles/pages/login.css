@@ -73,6 +73,9 @@
       .custom-checkbox {
         display: flex;
         align-items: center;
+        font-family: var(--font-roboto);
+        color: var(--primary-color);
+        font-size: 1rem;
       }
 
       /* Cria o container do novo checkbox */

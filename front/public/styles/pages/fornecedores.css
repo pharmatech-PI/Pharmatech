@@ -5,6 +5,11 @@
   align-items: center;
   margin-top: 40px;
   padding-inline: 40px;
+
+  .btn {
+    width: 210px;
+    padding: 12px 24px;
+  }
 }
 
 .fornecedor-title {
