@@ -132,13 +132,16 @@
 
         &.green {
           background-color: var(--bg-green);
+          color: var(--accent-green);
         }
 
         &.yellow {
           background-color: var(--bg-yellow);
+          color: var(--accent-yellow);
         }
         &.red {
           background-color: var(--bg-red);
+          color: var(--accent-red);
         }
       }
     }
