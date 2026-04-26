@@ -5,7 +5,7 @@
 }
 
 .card-section {
-    max-width: 840px;
+    margin-right: 300px;
     padding-inline: 40px;
     padding-top: 40px;
     background-color: #fff;
@@ -138,7 +138,7 @@
 
 
 .profile-footer {
-    max-width: 840px;
+    margin-right: 300px;
     display: flex;
     flex-direction: row;
     justify-content: end;
