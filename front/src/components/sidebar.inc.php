@@ -15,6 +15,7 @@
             <img src="assets/logo-sidebar.svg" alt="logo pharmatech">
             <img src="assets/logo-nome.svg" alt="logo pharmatech versao menor">
         </div>
+
         <ul class="navegacao-menu">
             <li><a href="/home.php">
             <img src="assets/icons/inicio.svg" alt="icone de inicio">
@@ -30,8 +31,21 @@
             <span>Fornecedores</span></a></li>
             <li><a href="/entrada.php">
              <img src="assets/icons/entrada.svg" alt="icone de entrada de mercadorias">
-            <span>Entrada de Mercadorias</span></a></li>
-        </ul>
+            <span>Entrada de Mercadorias</span></a></li>     
+        </ul>  
+        
+        
+        <div class="footer-sidebar">
+            <a href="/configuracoes.php">
+                <img src="assets/icons/settings.svg" alt="icone de inicio">
+                <span>Configurações de perfil</span>
+            </a>   
+
+            <a class="logout" href="/login.php">
+                <img src="assets/icons/logout.svg" alt="icone de inicio">
+                <span>Sair</span>
+            </a>  
+        </div>
     </nav>
 </body>
 </html>
