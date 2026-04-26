@@ -6,6 +6,9 @@
   top: 0;
   height: 100vh;
 
+  display: flex;
+  flex-direction: column;
+
   .logo-sidebar img {
     width: 200px;
     height: 45px;
@@ -16,7 +19,6 @@
   .navegacao-menu {
     display: flex;
     flex-direction: column;
-    align-items: left;
     gap: 30px;
   }
 
@@ -44,5 +46,27 @@
     transform: translate(-50%, -50%);
     opacity: 26%;
     transition: 0.3s ease-in;
+  }
+
+  .footer-sidebar {
+      display: flex;
+      margin-top: auto;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  .footer-sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-family: var(--font-poppins);
+      font-weight: 600;
+      text-decoration: none;
+  }
+
+  .footer-sidebar .logout span {
+    color: var(--accent-red);
   }
 }
