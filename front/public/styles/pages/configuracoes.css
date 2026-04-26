@@ -154,7 +154,12 @@
 }
 
 
-/* 1. Oculta o checkbox nativo do navegador */
+
+
+
+
+/* Parte dos toggles */
+
 .toggle-switch input {
   opacity: 0;
   width: 0;
@@ -162,7 +167,6 @@
   position: absolute;
 }
 
-/* 2. O container principal do botão */
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -178,9 +182,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--input); /* Cinza claro */
-  border-radius: 12px; /* Deixa as pontas totalmente arredondadas */
-  transition: background-color 0.3s ease; /* Animação suave na troca de cor */
+  background-color: var(--input); 
+  border-radius: 12px; 
+  transition: background-color 0.3s ease; 
 }
 
 /* 4. A bolinha do botão no estado DESLIGADO */
@@ -189,11 +193,11 @@
   content: "";
   height: 20px;
   width: 20px;
-  left: 4px; /* Espaço da borda esquerda */
-  bottom: 4px; /* Centraliza verticalmente (28 altura - 20 bolinha = 8 de sobra / 2 = 4) */
-  background-color: #ffffff; /* Bolinha branca */
-  border-radius: 50%; /* Deixa perfeitamente redonda */
-  transition: transform 0.3s ease, background-color 0.3s ease; /* Animação de movimento e cor */
+  left: 4px; 
+  bottom: 4px; 
+  background-color: #ffffff; 
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* 5. O fundo do botão no estado LIGADO (checked) */
@@ -203,7 +207,6 @@
 
 /* 6. A bolinha do botão no estado LIGADO (checked) */
 .toggle-switch input:checked + .slider::before {
-  /* Move a bolinha para a direita: Largura total (50) - Largura bolinha (20) - Margens (8) = 22px */
   transform: translateX(22px); 
-  background-color: #dbdbdb; /* A bolinha fica cinza claro */
+  background-color: #dbdbdb; 
 }
