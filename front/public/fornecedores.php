@@ -20,8 +20,7 @@
     <div class="layout-container">
         <?php include_once __DIR__ . "/../src/components/sidebar.inc.php"; ?>
         <div class="main-wrapper">
-            <?php include_once __DIR__ . "/../src/components/header.inc.php"; ?>
-            <main class="content-area">
+             <main class="content-area">
                 <div class="fornecedor-group">
                     <span class="fornecedor-title">Fornecedores</span>
                     <button class="btn" data-modal="abrir">+ Novo Fornecedor</button>
@@ -107,7 +106,7 @@
             </div>
         </div>
           <div class="btn-modal">
-            <button class="pagination-btn" type="submit">Cancelar</button>
+            <button class="pagination-btn" type="button">Cancelar</button>
             <button class="btn" type="submit">Salvar produto</button>
           </div>
         

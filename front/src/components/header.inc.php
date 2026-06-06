@@ -8,9 +8,6 @@
 <body>       
     <header>
         <img id="toggle-sidebar" src="assets/icons/sidebar.svg" alt="siderbar icon">
-    <div class="input-header"> 
-        <input type="text" placeholder="Buscar Produtos, Fornecedores...">
-    </div>
     <div class="icons-right">
         <img src="assets/icons/Alarm.svg" alt="icone de alarme">
         <img src="assets/icons/dark-mode.svg" alt="icone de dark mode">

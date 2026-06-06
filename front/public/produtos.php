@@ -1,5 +1,16 @@
 <?php 
     require_once __DIR__ . '/../../back/config/trava.php'; 
+    require_once __DIR__ . '/../../back/config/config.php';
+    require_once __DIR__ . '/../../back/app/models/fornecedor.php';
+    require_once __DIR__ . '/../../back/app/models/produto.php';
+
+
+    // Puxa todos os fornecedores para a gente listar no <select>
+    $fornecedorModel = new Fornecedor($pdo);
+    $listaFornecedores = $fornecedorModel->listar();
+
+    $produtoModel = new Produto($pdo);
+    $listarProdutos = $produtoModel->listar();
 ?>
 
 <!DOCTYPE html>
@@ -44,88 +55,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Amoxicilina 500mg</td>
-                                <td>AMX-500</td>
-                                <td>Antibiotico</td>
-                                <td>450</td>
-                                <td>R$ 12,90</td>
-                                <td><span class="status-badge green">Ativo</span></td>
-                                <td><img src="/assets/icons/pencil.svg" alt="icone de lapis"></td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>2</td>
-                                <td>Dipirona Sódica 1g</td>
-                                <td>DIP-1G</td>
-                                <td>Analgésico  </td>
-                                <td>0</td>
-                                <td>R$ 5,90</td>
-                                <td><span class="status-badge red">Inativo</span></td>
-                                <td><img src="/assets/icons/pencil.svg" alt="icone de lapis"></td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>3</td>
-                                <td>Amoxicilina 500mg</td>
-                                <td>AMX-500</td>
-                                <td>Antibiotico</td>
-                                <td>450</td>
-                                <td>R$ 12,90</td>
-                                <td><span class="status-badge green">ativo</span></td>
-                                <td><img src="/assets/icons/pencil.svg" alt="icone de lapis"></td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                            <td>4</td>
-                                <td>Dipirona Sódica 1g</td>
-                                <td>DIP-1G</td>
-                                <td>Analgésico  </td>
-                                <td>12</td>
-                                <td>R$ 22,90</td>
-                                <td><span class="status-badge green">Ativo</span></td>
-                                <td><img src="/assets/icons/pencil.svg" alt="icone de lapis"></td>
-                            </tr>
-                        </tbody>
-                         <tbody>
-                            <tr>
-                                <td>5</td>
-                                <td>Amoxicilina 500mg</td>
-                                <td>AMX-500</td>
-                                <td>Antibiotico</td>
-                                <td>450</td>
-                                <td>R$ 12,90</td>
-                                <td><span class="status-badge green">ativo</span></td>
-                                <td><img src="/assets/icons/pencil.svg" alt="icone de lapis"></td>
-                            </tr>
-                        </tbody>
-                            <tbody>
-                            <tr>
-                            <td>6</td>
-                                <td>Dipirona Sódica 1g</td>
-                                <td>DIP-1G</td>
-                                <td>Analgésico  </td>
-                                <td>12</td>
-                                <td>R$ 22,90</td>
-                                <td><span class="status-badge green">Ativo</span></td>
-                                <td><img src="/assets/icons/pencil.svg" alt="icone de lapis"></td>
-                            </tr>
-                        </tbody>
-                          <tbody>
-                            <tr>
-                                <td>7</td>
-                                <td>Amoxicilina 500mg</td>
-                                <td>AMX-500</td>
-                                <td>Antibiotico</td>
-                                <td>450</td>
-                                <td>R$ 12,90</td>
-                                <td><span class="status-badge green">ativo</span></td>
-                                <td><img src="/assets/icons/pencil.svg" alt="icone de lapis"></td>
-                            </tr>
+                            <?php if (empty($listarProdutos)): ?>
+                                <tr>
+                                    <td colspan="8" style="text-align: center;">Nenhum produto cadastrado.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($listarProdutos as $produto): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($produto['id']) ?></td>
+                                        <td><?= htmlspecialchars($produto['nome']) ?></td>
+                                        <td><?= htmlspecialchars($produto['sku']) ?></td>
+                                        
+                                        <td><?= htmlspecialchars($produto['categoria_nome']) ?></td>
+                                        
+                                        <td><?= htmlspecialchars($produto['estoque']) ?></td>
+                                        
+                                        <td>R$ <?= number_format($produto['preco'], 2, ',', '.') ?></td>
+                                        
+                                        <td>
+                                            <?php if (strtolower($produto['status']) === 'ativo'): ?>
+                                                <span class="status-badge green">Ativo</span>
+                                            <?php else: ?>
+                                                <span class="status-badge red">Inativo</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        
+                                        <td>
+                                            <img src="/assets/icons/pencil.svg" alt="icone de lapis" style="cursor: pointer;">
+                                        </td>
+                                    </tr>    
+                                <?php endforeach; ?>
+                            <?php endif; ?>                 
                         </tbody>
                     </table>
 
@@ -140,41 +100,61 @@
     <section class="modal-container" data-modal="container">
       <div class="modal">
         <button data-modal="fechar" class="fechar">X</button>
-        <form action="">
+        <form action="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=cadastrar_produto" method="POST">
         <div class="input-modal">
-            <div class="input-wrapper">
-                <label for="name">Nome</label>
-                <input type="text" for="name" id="name" placeholder="Ex: Amoxicilina 500mg"/>
-            </div>
-            <div class="input-wrapper">
-                <label for="sku">SKU</label>
-                <input type="text" for="sku" id="sku" placeholder="ex: AMX-500"/>
-            </div>
-               <div class="input-wrapper">
-                <label for="categoria">Categoria</label>
-                <input type="text" for="categoria" id="categoria" placeholder="Selecione"/>
-            </div>
-               <div class="input-wrapper">
-                <label for="preco">Preço</label>
-                <input type="text" for="preco" id="preco" placeholder="R$ 0,00"/>
-            </div>
-            <div class="input-wrapper">
-                <label for="estoque">Estoque inicial</label>
-                <input type="number" for="estoque" id="estoque" placeholder="0"/>
-            </div>
-               <div class="input-wrapper">
-                <label for="status">status</label>
-                <input type="text" for="status" id="status" placeholder="Ativo"/>
-            </div>
-        </div>
-          <div class="btn-modal">
-            <button class="pagination-btn" type="submit">Cancelar</button>
-            <button class="btn" type="submit">Salvar produto</button>
-          </div>
+    <div class="input-wrapper">
+        <label for="name">Nome</label>
+        <input type="text" name="nome" id="name" placeholder="Ex: Amoxicilina 500mg" required/>
+    </div>
+    
+    <div class="input-wrapper">
+        <label for="sku">SKU</label>
+        <input type="text" name="sku" id="sku" placeholder="ex: AMX-500" required/>
+    </div>
+    
+    <div class="input-wrapper">
+        <label for="categoria">ID da Categoria</label>
+        <input type="number" name="categoria_id" id="categoria" placeholder="Ex: 1" required/>
+    </div>
+    
+    <div class="input-wrapper">
+        <label for="preco">Preço</label>
+        <input type="text" name="preco" id="preco" placeholder="12,90" required/>
+    </div>
+    
+    <div class="input-wrapper">
+        <label for="estoque">Estoque inicial</label>
+        <input type="number" name="estoque" id="estoque" placeholder="0" required/>
+    </div>
+    
+    <div class="input-wrapper">
+        <label for="status">Status</label>
+        <input type="text" name="status" id="status" placeholder="Ativo" value="Ativo"/>
+    </div>
+
+    <div class="input-wrapper" style="grid-column: span 2;">
+        <label for="fornecedores">Fornecedores do Produto (Segure CTRL para marcar vários)</label>
+        
+        <select name="fornecedores[]" id="fornecedores" multiple style="height: 100px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;" required>
+            
+            <?php foreach ($listaFornecedores as $f): ?>
+                <option value="<?= htmlspecialchars($f['id']) ?>">
+                    <?= htmlspecialchars($f['nome_fantasia']) ?> (<?= htmlspecialchars($f['cnpj']) ?>)
+                </option>
+            <?php endforeach; ?>
+            
+        </select>
+    </div>
+</div>
+
+<div class="btn-modal">
+    <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
+    <button class="btn" type="submit">Salvar produto</button>
+</div>
         
         </form>
       </div>
     </section>
-    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>

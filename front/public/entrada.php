@@ -1,5 +1,17 @@
 <?php 
     require_once __DIR__ . '/../../back/config/trava.php'; 
+    require_once __DIR__ . '/../../back/config/config.php';
+    
+    // Trazendo os Models para buscar os dados do banco
+    require_once __DIR__ . '/../../back/app/models/produto.php';
+    require_once __DIR__ . '/../../back/app/models/fornecedor.php';
+
+    // Puxando as listas para preencher as caixas de seleção
+    $produtoModel = new Produto($pdo);
+    $listaProdutos = $produtoModel->listar();
+
+    $fornecedorModel = new Fornecedor($pdo);
+    $listaFornecedores = $fornecedorModel->listar();
 ?>
 
 <!DOCTYPE html>
@@ -28,38 +40,54 @@
                 <div class="mercadoria-container-alinhamento">
                     <div class="mercadoria-container">
                         <h1>Nova Entrada</h1>
-                        <div class="container-grid">
-                            <div class="grid-item">
-                                <span>Produto</span>
-                                <input type="text" placeholder="Nome do produto">
+                        
+                        <form action="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=registrar_entrada" method="POST">
+                            <div class="container-grid">
+                                
+                                <div class="grid-item">
+                                    <span>Produto</span>
+                                    <select name="produto_id" required>
+                                        <option value="" disabled selected>Selecione o produto</option>
+                                        <?php foreach ($listaProdutos as $p): ?>
+                                            <option value="<?= htmlspecialchars($p['id']) ?>">
+                                                <?= htmlspecialchars($p['nome']) ?> (<?= htmlspecialchars($p['sku']) ?>)
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="grid-item">
+                                    <span>Quantidade</span>
+                                    <input type="number" name="quantidade" placeholder="0" min="1" required> 
+                                </div>
+
+                                <div class="grid-item">
+                                    <span>Nota Fiscal</span>
+                                    <input type="text" name="nota_fiscal" placeholder="NF-00000" required>
+                                </div>
+
+                                <div class="grid-item">
+                                    <span>Lote</span>
+                                    <input type="text" name="lote" placeholder="LT-0000-000"> 
+                                </div>
+
+                                <div class="grid-item grid-item--full">
+                                    <span>Fornecedor</span>
+                                    <select name="fornecedor_id" required>
+                                        <option value="" disabled selected>Selecione o fornecedor</option>
+                                        <?php foreach ($listaFornecedores as $f): ?>
+                                            <option value="<?= htmlspecialchars($f['id']) ?>">
+                                                <?= htmlspecialchars($f['nome_fantasia']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>            
                             </div>
 
-                            <div class="grid-item">
-                                <span>Quantidade</span>
-                                <input type="number" placeholder="0"> 
+                            <div class="mercadoria-footer">
+                                <button type="submit" class="btn">+ Registrar entrada</button>
                             </div>
-
-                            <div class="grid-item">
-                                <span>Nota Fiscal</span>
-                                <input type="text" placeholder="NF-00000">
-                            </div>
-
-                            <div class="grid-item">
-                                <span>Lote</span>
-                                <input type="text" placeholder="LT-0000-000"> 
-                            </div>
-
-                            <div class="grid-item grid-item--full">
-                                <span>Fornecedor</span>
-                                <select>
-                                    <option value="">Selecione o fornecedor</option>
-                                </select>
-                            </div>            
-                        </div>
-
-                        <div class="mercadoria-footer">
-                             <button class="btn">+ Registrar entrada</button>
-                        </div>
+                        </form>
                     </div>
                 </div>  
             </main>

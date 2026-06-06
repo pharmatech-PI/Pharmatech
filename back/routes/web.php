@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../app/controllers/authController.php';
 require_once __DIR__ . '/../app/controllers/fornecedorController.php'; 
+require_once __DIR__ . '/../app/controllers/produtoController.php';
+require_once __DIR__ . '/../app/controllers/movimentacaoController.php';
 
 $acao = $_GET['acao'] ?? '';
 
@@ -18,6 +20,16 @@ switch ($acao) {
     case 'cadastrar_fornecedor':                        
         $fornecedor = new FornecedorController($pdo);
         $fornecedor->cadastrar();
+        break;
+
+    case 'cadastrar_produto':
+        $produto = new produtoController($pdo);
+        $produto->cadastrar();
+        break;
+    
+    case 'registrar_entrada':                        
+        $movimentacao = new MovimentacaoController($pdo);
+        $movimentacao->registrarEntrada();
         break;
 
     default:

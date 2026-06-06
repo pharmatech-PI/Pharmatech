@@ -1,5 +1,16 @@
 <?php 
     require_once __DIR__ . '/../../back/config/trava.php'; 
+    require_once __DIR__ . '/../../back/config/config.php';
+    require_once __DIR__ . '/../../back/app/models/movimentacao.php';
+
+    $movimentacaoModel = new Movimentacao($pdo);
+    $listaMovimentacoes = $movimentacaoModel->listar();
+
+    $movimentacaoModel = new Movimentacao($pdo);
+    $listaMovimentacoes = $movimentacaoModel->listar();
+    
+    // NOVO: Puxando os totais para os cards
+    $resumo = $movimentacaoModel->obterResumo();
 ?>
 
 <!DOCTYPE html>
@@ -23,33 +34,25 @@
                     <h1>Histórico de movimentações</h1>
                 </header>
                 <section class="cards card-movimentacao">
-                    <div class="card">
-                        <div class="card-flex">
-                            <p>Entradas</p>
-                        </div>
-                        <span>600</span>
-                    </div>
-                    <div class="card">
-                        <div class="card-flex">
-                            <p>Saídas</p>
-                        </div>
-                        <span>80</span>
-                    </div>
-                    <div class="card">
-                        <div class="card-flex">
-                            <p>Ajustes</p>
-                        </div>
-                        <span>15</span>
-                    </div>
-                    <div class="card">
-                        <div class="card-flex">
-                            <p>Vencimento</p>
-                        </div>
-                        <span>3</span>
-                    </div>
-                   
-                </section>
-
+    <div class="card">
+        <div class="card-flex">
+            <p>Entradas</p>
+        </div>
+        <span><?= $resumo['Entrada'] ?></span> 
+    </div>
+    <div class="card">
+        <div class="card-flex">
+            <p>Saídas</p>
+        </div>
+        <span><?= $resumo['Saída'] ?></span>
+    </div>
+    <div class="card">
+        <div class="card-flex">
+            <p>Vencimento</p>
+        </div>
+        <span><?= $resumo['Vencimento'] ?></span>
+    </div>
+</section>
                 <section class="produtos">
                     <div class="produtos-container">
                         <div class="table-header">
@@ -74,62 +77,40 @@
                                     <th>Ação</th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2026-01-16</td>
-                                    <td><span class="status-badge green">Entrada</span></td>
-                                    <td>Amoxicilina 500mg</td>
-                                    <td>LT-2026-001</td>
-                                    <td>2027-06</td>
-                                    <td>200</td>
-                                    <td>200</td>
-                                    <td>200</td>
-                                    <td>Ver</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                      <td>2</td>
-                                    <td>2026-01-16</td>
-                                    <td><span class="status-badge yellow">Saída</span></td>
-                                    <td>Dipirona sódica 1g</td>
-                                    <td>LT-2025-001</td>
-                                    <td>2027-06</td>
-                                    <td>30</td>
-                                    <td>42</td>
-                                    <td>42</td>
-                                    <td>Ver</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>3</td>
-                                    <td>2026-01-16</td>
-                                    <td><span class="status-badge green">Entrada</span></td>
-                                    <td>Omeprazol 20mg</td>
-                                    <td>LT-2026-001</td>
-                                    <td>2027-06</td>
-                                    <td>15</td>
-                                    <td>15</td>
-                                    <td>15</td>
-                                    <td>Ver</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>4</td>
-                                    <td>2026-01-16</td>
-                                    <td><span class="status-badge green">Entrada</span></td>
-                                    <td>Metformina 850mg</td>
-                                    <td>LT-2026-001</td>
-                                    <td>2027-06</td>
-                                    <td>100</td>
-                                    <td>100</td>
-                                    <td>130</td>
-                                    <td>Ver</td>
-                                </tr>
-                            </tbody>
+    <?php if (empty($listaMovimentacoes)): ?>
+        <tr>
+            <td colspan="10" style="text-align: center;">Nenhuma movimentação registrada.</td>
+        </tr>
+    <?php else: ?>
+        <?php foreach ($listaMovimentacoes as $mov): ?>
+            <tr>
+                <td><?= htmlspecialchars($mov['id']) ?></td>
+                
+                <td><?= date('d/m/Y', strtotime($mov['data'])) ?></td>
+                
+                <td>
+                    <?php if (strtolower($mov['tipo']) === 'entrada'): ?>
+                        <span class="status-badge green"><?= htmlspecialchars($mov['tipo']) ?></span>
+                    <?php else: ?>
+                        <span class="status-badge yellow"><?= htmlspecialchars($mov['tipo']) ?></span>
+                    <?php endif; ?>
+                </td>
+                
+                <td><?= htmlspecialchars($mov['produto_nome']) ?></td>
+                
+                <td><?= htmlspecialchars($mov['lote']) ?></td>
+                <td>-</td> <td><?= htmlspecialchars($mov['quantidade']) ?></td>
+                <td><?= htmlspecialchars($mov['qtd_antes']) ?></td>
+                <td><?= htmlspecialchars($mov['qtd_depois']) ?></td>
+                
+                <td><a href="#" style="color: var(--primary-color); text-decoration: none;">Ver</a></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</tbody>
+                            
                         </table>
                         <?php include_once __DIR__ . "/../src/components/pagination.inc.php"; ?>
                     </div>
