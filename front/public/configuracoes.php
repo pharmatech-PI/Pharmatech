@@ -120,18 +120,6 @@
                                     <span class="slider"></span>
                                 </label>
                             </div>
-
-                            <div class="profile-preference-theme">
-                                <div>
-                                    <h2>Notificações por e-mail</h2>
-                                    <span>Reeber alertas de estoque baixo</span>
-                                </div>
-
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="toggle-dark-mode">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>    
                         </div>
                     </section>
 
