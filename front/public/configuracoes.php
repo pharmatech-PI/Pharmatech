@@ -7,10 +7,8 @@
         session_start();
     }
 
-    // 3. Pega o ID do usuário guardado na sessão
     $usuario_id = $_SESSION['usuario_id'] ?? 0;
 
-    // 4. Busca os dados atuais do usuário diretamente na tabela
     $stmt = $pdo->prepare("SELECT nome_completo, email, telefone FROM usuario WHERE id = ?");
     $stmt->execute([$usuario_id]);
     $dadosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -44,9 +42,13 @@
 
                         <div class="profile-picture-section">
                             <div class="profile-circle">
-                                <span>A</span>
+                                <?php
+                                    $nome_usuario = $dadosUsuario['nome_completo'] ?? 'Usuario';
+
+                                    $primeira_letra = mb_strtoupper(mb_substr($nome_usuario, 0, 1));
+                                ?>
+                                <span><?= htmlspecialchars($primeira_letra) ?></span>
                             </div>
-                            <button class="btn-picture">Alterar Foto</button>
                         </div>
 
                         <div class="container-grid-profile">

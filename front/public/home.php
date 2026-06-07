@@ -8,6 +8,17 @@
     
     $metricas = $dashboardModel->obterMetricas();
     $produtosRecentes = $dashboardModel->listarProdutosRecentes();
+
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    $usuario_id = $_SESSION['usuario_id'] ?? 0;
+
+    $stmt = $pdo->prepare("SELECT nome_completo, email, telefone FROM usuario WHERE id = ?");
+    $stmt->execute([$usuario_id]);
+    $dadosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +39,10 @@
             <?php include_once __DIR__ . "/../src/components/header.inc.php"; ?>
             <main class="content-area">
                 <header>
-                    <h1>Seja bem-vindo(a), <?= htmlspecialchars($_SESSION['usuario_nome']) ?>!</h1>
+                    <?php
+                        $nome_usuario = $dadosUsuario['nome_completo'] ?? 'Usuario';
+                    ?>
+                    <h1>Seja bem-vindo(a), <?= htmlspecialchars($nome_usuario) ?>!</h1>
                 </header>
                 
                 <section class="cards">

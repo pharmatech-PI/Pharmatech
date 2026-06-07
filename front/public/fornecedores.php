@@ -3,8 +3,26 @@
     require_once __DIR__ . '/../../back/config/config.php';
     require_once __DIR__ . '/../../back/app/models/fornecedor.php';
 
+
     $fornecedorModel = new Fornecedor($pdo);
-    $fornecedores = $fornecedorModel->listar();
+
+    $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    if ($pagina_atual < 1) {
+        $pagina_atual = 1;
+    }
+
+    $itens_por_pagina = 10; 
+
+
+    $offset = ($pagina_atual - 1) * $itens_por_pagina;
+
+    
+    $total_itens = $fornecedorModel->contarTotal();
+
+    $total_paginas = ceil($total_itens / $itens_por_pagina);
+
+
+    $fornecedores = $fornecedorModel->listarPaginado($itens_por_pagina, $offset);
 ?>
 
 <!DOCTYPE html>

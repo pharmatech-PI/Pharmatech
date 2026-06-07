@@ -5,12 +5,29 @@
     require_once __DIR__ . '/../../back/app/models/produto.php';
 
 
-    // Puxa todos os fornecedores para a gente listar no <select>
-    $fornecedorModel = new Fornecedor($pdo);
-    $listaFornecedores = $fornecedorModel->listar();
 
     $produtoModel = new Produto($pdo);
-    $listarProdutos = $produtoModel->listar();
+
+    
+    $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    if ($pagina_atual < 1) {
+        $pagina_atual = 1;
+    }
+
+    $itens_por_pagina = 10; 
+
+
+    $offset = ($pagina_atual - 1) * $itens_por_pagina;
+
+    
+    $total_itens = $produtoModel->contarTotal();
+
+    $total_paginas = ceil($total_itens / $itens_por_pagina);
+
+    $listaProdutos = $produtoModel->listarPaginado($itens_por_pagina, $offset);
+
+    $fornecedorModel = new Fornecedor($pdo);
+    $listaFornecedores = $fornecedorModel->listar();
 ?>
 
 <!DOCTYPE html>
@@ -55,12 +72,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($listarProdutos)): ?>
+                            <?php if (empty($listaProdutos)): ?>
                                 <tr>
                                     <td colspan="8" style="text-align: center;">Nenhum produto cadastrado.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($listarProdutos as $produto): ?>
+                                <?php foreach ($listaProdutos as $produto): ?>
                                     <tr>
                                         <td><?= htmlspecialchars($produto['id']) ?></td>
                                         <td><?= htmlspecialchars($produto['nome']) ?></td>
