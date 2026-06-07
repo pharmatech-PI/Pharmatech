@@ -34,13 +34,10 @@
             <div class="checkbox-wrapper">
                 <div class="checkbox">
                     <label class="custom-checkbox">
-                        <input type="checkbox">
+                        <input name="lembrar" type="checkbox">
                         <span class="checkmark"></span>
                         Lembrar de mim
                     </label>
-                </div>
-                <div class="forgot">
-                    <span>Esqueceu a senha?</span>
                 </div>
             </div>
 

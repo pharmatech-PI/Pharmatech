@@ -57,6 +57,14 @@ class AuthController {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_nome'] = $usuario['nome_completo'];
 
+                if (isset($_POST['lembrar'])) {
+                    $token = bin2hex(random_bytes(32));
+
+                    $usuarioModel->salvarTokenLembrar($usuario['id'], $token);
+
+                    setcookie('lembrar_usuario', $token, time() + (30 * 24 * 60 * 60), "/", "", false, true);
+                }
+
                 header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/home.php");
                 exit;
 

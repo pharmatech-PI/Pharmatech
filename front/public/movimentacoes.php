@@ -74,7 +74,6 @@
                                     <th>Qtd.</th>
                                     <th>antes</th>
                                     <th>depois</th>
-                                    <th>Ação</th>
                                 </tr>
                             </thead>
 
@@ -98,14 +97,38 @@
                     <?php endif; ?>
                 </td>
                 
-                <td><?= htmlspecialchars($mov['produto_nome']) ?></td>
+                <td><?= htmlspecialchars($mov['produto_nome']) ?></td>         
                 
-                <td><?= htmlspecialchars($mov['lote']) ?></td>
-                <td>-</td> <td><?= htmlspecialchars($mov['quantidade']) ?></td>
+                <td><?= htmlspecialchars($mov['lote']) ?></td>  
+
+                <td>
+                    <?php 
+                    if (!empty($mov['validade']) && $mov['validade'] !== '0000-00-00') {
+                        
+                        $hoje = strtotime(date('Y-m-d'));
+                        $dataValidade = strtotime($mov['validade']);
+                        $limite30Dias = strtotime('+30 days');
+
+                        $dataFormatada = date('d/m/Y', $dataValidade);
+
+                        if ($dataValidade < $hoje) {
+                            echo "<span style='color: #dc3545; font-weight: 700;'>{$dataFormatada} 🔴</span>";
+                        } elseif ($dataValidade <= $limite30Dias) {
+                            echo "<span style='color: #fd7e14; font-weight: 700;'>{$dataFormatada} 🟠</span>";
+                        } else {
+                            echo "<span>{$dataFormatada}</span>";
+                        }
+
+                    } else {
+                        echo "-"; 
+                    }
+                    ?>
+                </td>
+
+                <td><?= htmlspecialchars($mov['quantidade']) ?></td>
                 <td><?= htmlspecialchars($mov['qtd_antes']) ?></td>
                 <td><?= htmlspecialchars($mov['qtd_depois']) ?></td>
                 
-                <td><a href="#" style="color: var(--primary-color); text-decoration: none;">Ver</a></td>
             </tr>
         <?php endforeach; ?>
     <?php endif; ?>

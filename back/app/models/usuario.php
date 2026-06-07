@@ -28,5 +28,16 @@ class Usuario {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function salvarTokenLembrar($id, $token) {
+    try {
+        $sql = "UPDATE usuario SET token_lembrar = ? WHERE id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        
+        return $stmt->execute([$token, $id]);
+    } catch (Exception $e) {
+        die("Erro detectado no Model de Usuário: " . $e->getMessage());
+    }
+}
 }
 ?>

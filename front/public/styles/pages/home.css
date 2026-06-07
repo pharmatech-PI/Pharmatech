@@ -21,12 +21,13 @@
     padding-inline: 40px;
 
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 40px;
     max-width: 1400px;
 
     .card {
+      flex: 1 1 340px;
       padding: 20px 30px;
       background-color: var(--text-primary);
       height: 110px;

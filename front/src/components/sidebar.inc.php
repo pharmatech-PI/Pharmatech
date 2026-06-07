@@ -18,22 +18,30 @@
 
         <ul class="navegacao-menu">
             <li><a href="./home.php">
-            <img src="assets/icons/inicio.svg" alt="icone de inicio">
-            <span>Início</span></a></li>
+                <img src="assets/icons/inicio.svg" alt="icone de inicio">
+                <span>Início</span></a>
+            </li>
             <li><a href="./produtos.php">
-             <img src="assets/icons/produtos.svg" alt="icone de produtos">    
-            <span>Produtos</span></a></li>
+                <img src="assets/icons/produtos.svg" alt="icone de produtos">    
+                <span>Produtos</span></a>
+            </li>
             <li><a href="./movimentacoes.php">
-             <img src="assets/icons/movimentacoes.svg" alt="icone de movimentacoes">
-            <span>Movimentações</span></a></li>
+                <img src="assets/icons/movimentacoes.svg" alt="icone de movimentacoes">
+                <span>Movimentações</span></a>
+            </li>
             <li><a href="./fornecedores.php">
-             <img src="assets/icons/fornecedor.svg" alt="icone de fornecedores">
-            <span>Fornecedores</span></a></li>
+                <img src="assets/icons/fornecedor.svg" alt="icone de fornecedores">
+                <span>Fornecedores</span></a>
+            </li>
             <li><a href="./entrada.php">
-             <img src="assets/icons/entrada.svg" alt="icone de entrada de mercadorias">
-            <span>Entrada de Mercadorias</span></a></li>     
+                <img src="assets/icons/entrada.svg" alt="icone de entrada de mercadorias">
+                <span>Entrada de Mercadorias</span></a>
+            </li>     
+            <li><a href="./saidas.php">
+                <img style="width: 20px; height: 20px; color: white;" src="assets/icons/saida.svg" alt="icone de saida de mercadorias">
+                <span>Saída de Mercadorias</span></a>
+            </li>
         </ul>  
-        
         
         <div class="footer-sidebar">
             <a href="./configuracoes.php">
