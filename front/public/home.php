@@ -134,26 +134,6 @@
     </div>
     <script type="module" src="./js/main.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const btnNotificacao = document.getElementById('btn-notificacao');
-            const dropdownNotificacao = document.getElementById('dropdown-notificacao');
-
-            if (btnNotificacao && dropdownNotificacao) {
-                btnNotificacao.addEventListener('click', (event) => {
-                    dropdownNotificacao.classList.toggle('mostrar');
-                    event.stopPropagation(); 
-                });
-
-                document.addEventListener('click', (event) => {
-                    if (!dropdownNotificacao.contains(event.target)) {
-                        dropdownNotificacao.classList.remove('mostrar');
-                    }
-                });
-            } else {
-                alert("CÓDIGO RODOU, MAS NÃO ACHOU O ID DO SINO!");
-            }
-    });
-</script>
+    
 </body>
 </html>

@@ -8,9 +8,16 @@ class Movimentacao {
 
     public function entrada($produto_id, $quantidade, $validade, $nota_fiscal, $lote, $fornecedor_id, $usuario_id) {
         try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            // Usamos a sua correção crucial da sessão para garantir o nome do usuário ativo
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+
             $this->pdo->beginTransaction();
 
-            $stmtProduto = $this->pdo->prepare("SELECT estoque FROM produto WHERE id = ?");
+            // 1. Seleciona o estoque atual E o nome do produto para a notificação
+            $stmtProduto = $this->pdo->prepare("SELECT nome, estoque FROM produto WHERE id = ?");
             $stmtProduto->execute([$produto_id]);
             $produto = $stmtProduto->fetch(PDO::FETCH_ASSOC);
 
@@ -19,9 +26,11 @@ class Movimentacao {
                 return false;
             }
 
+            $nome_produto = $produto['nome'];
             $qtd_antes = (int)$produto['estoque'];
             $qtd_depois = $qtd_antes + $quantidade;
 
+            // 2. Registra na tabela interna de movimentações completas
             $stmtMov = $this->pdo->prepare("
                 INSERT INTO movimentacao 
                 (tipo, nota_fiscal, lote, quantidade, validade, qtd_antes, qtd_depois, produto_id, usuario_id, fornecedor_id) 
@@ -40,8 +49,19 @@ class Movimentacao {
                 $fornecedor_id
             ]);
 
+            // 3. Atualiza o estoque do produto
             $stmtUpdate = $this->pdo->prepare("UPDATE produto SET estoque = ? WHERE id = ?");
             $stmtUpdate->execute([$qtd_depois, $produto_id]);
+
+            // =================================================================
+            // 🔥 NOVO: ALIMENTA O SININHO DE NOTIFICAÇÕES (ENTRADA)
+            // =================================================================
+            $stmtHist = $this->pdo->prepare("
+                INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
+                VALUES (?, 'entrada', ?, ?)
+            ");
+            $stmtHist->execute([$usuario_logado, $nome_produto, $quantidade]);
+            // =================================================================
 
             $this->pdo->commit();
             return true;
@@ -55,30 +75,35 @@ class Movimentacao {
 
     public function saida($produto_id, $quantidade, $motivo, $lote, $usuario_id) {
         try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+
             $this->pdo->beginTransaction();
 
-            // 1. Verifica o estoque atual do produto
-            $stmtProduto = $this->pdo->prepare("SELECT estoque FROM produto WHERE id = ?");
+            // 1. Verifica o estoque atual E o nome do produto
+            $stmtProduto = $this->pdo->prepare("SELECT nome, estoque FROM produto WHERE id = ?");
             $stmtProduto->execute([$produto_id]);
             $produto = $stmtProduto->fetch(PDO::FETCH_ASSOC);
 
-            // 2. Trava de Segurança: Se o produto não existe ou se tentar tirar mais do que tem!
+            // 2. Trava de Segurança
             if (!$produto || $produto['estoque'] < $quantidade) {
                 $this->pdo->rollBack();
                 return false; 
             }
 
+            $nome_produto = $produto['nome'];
             $qtd_antes = (int)$produto['estoque'];
-            $qtd_depois = $qtd_antes - $quantidade; // Aqui a mágica da subtração acontece!
+            $qtd_depois = $qtd_antes - $quantidade; 
 
-            // 3. Registra a movimentação no histórico
+            // 3. Registra a movimentação no histórico detalhado
             $stmtMov = $this->pdo->prepare("
                 INSERT INTO movimentacao 
                 (tipo, nota_fiscal, lote, quantidade, validade, qtd_antes, qtd_depois, produto_id, usuario_id, fornecedor_id) 
                 VALUES ('Saída', ?, ?, ?, NULL, ?, ?, ?, ?, NULL)
             ");
             
-            // Salvamos o 'motivo' no lugar da nota fiscal
             $stmtMov->execute([
                 $motivo, 
                 $lote, 
@@ -92,6 +117,16 @@ class Movimentacao {
             // 4. Atualiza o produto com o novo estoque reduzido
             $stmtUpdate = $this->pdo->prepare("UPDATE produto SET estoque = ? WHERE id = ?");
             $stmtUpdate->execute([$qtd_depois, $produto_id]);
+
+            // =================================================================
+            // 🔥 NOVO: ALIMENTA O SININHO DE NOTIFICAÇÕES (SAÍDA)
+            // =================================================================
+            $stmtHist = $this->pdo->prepare("
+                INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
+                VALUES (?, 'saida', ?, ?)
+            ");
+            $stmtHist->execute([$usuario_logado, $nome_produto, $quantidade]);
+            // =================================================================
 
             $this->pdo->commit();
             return true;

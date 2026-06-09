@@ -98,7 +98,21 @@
                                         </td>
                                         
                                         <td>
-                                            <img src="/assets/icons/pencil.svg" alt="icone de lapis" style="cursor: pointer;">
+                                            <div style="display: flex; aling-items: center; gap: 5px;">
+                                               <img src="./assets/icons/pencil.svg" alt="icone de lapis" style="cursor: pointer;" 
+                                                    class="btn-editar-produto"
+                                                    data-id="<?= htmlspecialchars($produto['id']) ?>"
+                                                    data-nome="<?= htmlspecialchars($produto['nome']) ?>"
+                                                    data-sku="<?= htmlspecialchars($produto['sku']) ?>"
+                                                    data-preco="<?= htmlspecialchars($produto['preco']) ?>"
+                                                    data-estoque="<?= htmlspecialchars($produto['estoque']) ?>"
+                                                    data-status="<?= htmlspecialchars($produto['status']) ?>"
+                                                    data-categoria="<?= htmlspecialchars($produto['categoria_id']) ?>">         
+
+                                                <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_produto&id=<?= $produto['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir o produto <?= htmlspecialchars($produto['nome']) ?>?');">
+                                                    <img src="./assets/icons/lixeira.svg" style="width: 20px; height: 20px;" alt="icone de lixeira" style="cursor: pointer;">
+                                                </a>   
+                                            </div>
                                         </td>
                                     </tr>    
                                 <?php endforeach; ?>
@@ -164,14 +178,74 @@
     </div>
 </div>
 
-        <div class="btn-modal">
-            <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
-            <button class="btn" type="submit">Salvar produto</button>
-        </div>
+    <div class="btn-modal">
+        <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
+         <button class="btn" type="submit">Salvar produto</button>
+    </div>
         
-        </form>
+    </form>
       </div>
-    </section>
-    <script type="module" src="./js/main.js"></script>
-</body>
+</section>
+
+
+        <section class="modal-container" id="modal-editar" style="display: none;">
+        <div class="modal">
+            <button id="btn-fechar-editar" class="fechar">X</button>
+            
+            <form action="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=atualizar_produto" method="POST">
+                <input type="hidden" name="id" id="edit_id">
+
+                <div class="input-modal">
+                    <div class="input-wrapper">
+                        <label for="edit_nome">Nome</label>
+                        <input type="text" name="nome" id="edit_nome" required/>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="edit_sku">SKU</label>
+                        <input type="text" name="sku" id="edit_sku" required/>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="edit_categoria">ID da Categoria</label>
+                        <input type="number" name="categoria_id" id="edit_categoria" required/>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="edit_preco">Preço</label>
+                        <input type="text" name="preco" id="edit_preco" required/>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="edit_estoque">Estoque</label>
+                        <input type="number" name="estoque" id="edit_estoque" required/>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="edit_status">Status</label>
+                        <input type="text" name="status" id="edit_status" required/>
+                    </div>
+
+                    <div class="input-wrapper" style="grid-column: span 2;">
+                        <label for="edit_fornecedores">Fornecedores (Segure CTRL para marcar vários)</label>
+                        <select name="fornecedores[]" id="edit_fornecedores" multiple style="height: 100px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;" required>
+                            <?php foreach ($listaFornecedores as $f): ?>
+                                <option value="<?= htmlspecialchars($f['id']) ?>">
+                                    <?= htmlspecialchars($f['nome_fantasia']) ?> (<?= htmlspecialchars($f['cnpj']) ?>)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-modal">
+                    <button class="pagination-btn" type="button" id="btn-cancelar-editar">Cancelar</button>
+                    <button class="btn" type="submit">Atualizar produto</button>
+                </div>
+            </form>
+        </div>
+        </section>
+
+        <script type="module" src="./js/main.js"></script>
+    </body>
 </html>

@@ -43,6 +43,16 @@ switch ($acao) {
         $atualizarPerfil = new AtualizarController($pdo);
         $atualizarPerfil->atualizar();
         break;
+
+    case 'excluir_produto':
+        $produto = new produtoController($pdo);
+        $produto->excluir();
+        break;
+
+    case 'atualizar_produto':
+        $produto = new produtoController($pdo);
+        $produto->atualizar_produto();
+        break;
         
 
     default:

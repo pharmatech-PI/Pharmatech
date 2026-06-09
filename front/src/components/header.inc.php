@@ -1,12 +1,9 @@
 <?php
-// 1. Garante que o Model do Produto está carregado para podermos usar o método do sininho
 require_once __DIR__ . '../../../../back/app/models/produto.php';
 
-// 2. Instancia o model usando a conexão $pdo que já vem da página principal
 $produtoModelNotificacoes = new Produto($pdo);
 
-// 3. Busca as últimas 5 linhas salvas na tabela de histórico
-$notificacoes = $produtoModelNotificacoes->listarUltimasNotificacoes(5);
+$notificacoes = $produtoModelNotificacoes->listarUltimasNotificacoes(10);
 ?>
 
 <header>
@@ -36,7 +33,6 @@ $notificacoes = $produtoModelNotificacoes->listarUltimasNotificacoes(5);
                                 <span class="noti-user"><?= htmlspecialchars($noti['usuario_nome']) ?></span> 
                                 
                                 <?php 
-                                // Adapta a frase de exibição de acordo com o tipo de ação
                                 if ($noti['acao'] === 'entrada') {
                                     echo 'deu entrada em <br>';
                                     echo '<b>' . htmlspecialchars($noti['quantidade']) . 'x ' . htmlspecialchars($noti['produto_nome']) . '</b>';
@@ -48,6 +44,14 @@ $notificacoes = $produtoModelNotificacoes->listarUltimasNotificacoes(5);
                                     echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
                                 } elseif ($noti['acao'] === 'cadastro_fornecedor') {
                                     echo 'cadastrou o fornecedor <br>';
+                                    echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
+                                }
+                                elseif ($noti['acao'] === 'exclusao_produto') {
+                                    echo 'excluiu o produto <br>';
+                                    echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
+                                }
+                                elseif ($noti['acao'] === 'edicao_produto') {
+                                    echo 'editou o produto <br>';
                                     echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
                                 }
                                 ?>
@@ -63,6 +67,17 @@ $notificacoes = $produtoModelNotificacoes->listarUltimasNotificacoes(5);
             </div>
         </div>
         <img src="assets/icons/dark-mode.svg" alt="icone de dark mode">
-        <img src="assets/icons/Profile.svg" alt="icone de perfil">
+
+
+        <a href="/PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php" class="profile-picture">
+            <div class="profile-circle secondary">
+                <?php
+                    $nome_usuario = $dadosUsuario['nome_completo'] ?? 'Usuario';
+
+                    $primeira_letra = mb_strtoupper(mb_substr($nome_usuario, 0, 1));
+                    ?>
+                    <span><?= htmlspecialchars($primeira_letra) ?></span>
+            </div>
+        </a>
     </div>
 </header>

@@ -92,6 +92,90 @@ class Produto {
     }
 
 
+    public function excluir($id) {
+        try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+
+            $this->pdo->beginTransaction();
+
+            // 1. Pega o nome do produto antes de apagar (para avisar no sininho)
+            $stmtNome = $this->pdo->prepare("SELECT nome FROM produto WHERE id = ?");
+            $stmtNome->execute([$id]);
+            $produto = $stmtNome->fetch(PDO::FETCH_ASSOC);
+            $nomeProduto = $produto ? $produto['nome'] : 'Desconhecido';
+
+            // 2. Apaga as ligações na tabela fornecedor_produto
+            $stmtAssoc = $this->pdo->prepare("DELETE FROM fornecedor_produto WHERE produto_id = ?");
+            $stmtAssoc->execute([$id]);
+
+            // 3. Apaga o produto de fato
+            $stmtProd = $this->pdo->prepare("DELETE FROM produto WHERE id = ?");
+            $stmtProd->execute([$id]);
+
+            // 4. (BÔNUS) Registra a exclusão no sininho!
+            $stmtHist = $this->pdo->prepare("
+                INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
+                VALUES (?, 'exclusao_produto', ?, 0)
+            ");
+            $stmtHist->execute([$usuario_logado, $nomeProduto]);
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+
+
+    public function atualizar($id, $nome, $sku, $preco, $estoque, $status, $categoria_id, $fornecedores) {
+        try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+
+            $this->pdo->beginTransaction();
+
+            $stmt = $this->pdo->prepare("
+                UPDATE produto 
+                SET nome = ?, sku = ?, preco = ?, estoque = ?, status = ?, categoria_id = ? 
+                WHERE id = ?
+            ");
+            $stmt->execute([$nome, $sku, $preco, $estoque, $status, $categoria_id, $id]);
+
+            $stmtDel = $this->pdo->prepare("DELETE FROM fornecedor_produto WHERE produto_id = ?");
+            $stmtDel->execute([$id]);
+
+            if (!empty($fornecedores) && is_array($fornecedores)) {
+                $stmtAssoc = $this->pdo->prepare("INSERT INTO fornecedor_produto (fornecedor_id, produto_id) VALUES (?, ?)");
+                foreach ($fornecedores as $fornecedor_id) {
+                    $stmtAssoc->execute([$fornecedor_id, $id]);
+                }
+            }
+
+            $stmtHist = $this->pdo->prepare("
+                INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
+                VALUES (?, 'edicao_produto', ?, ?)
+            ");
+            $stmtHist->execute([$usuario_logado, $nome, $estoque]);
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+
+
     public function listarUltimasNotificacoes($limite = 5) {
         try {
             $limite_seguro = (int) $limite;
