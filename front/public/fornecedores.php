@@ -126,7 +126,7 @@
         </div>
           <div class="btn-modal">
             <button class="pagination-btn" type="button">Cancelar</button>
-            <button class="btn" type="submit">Salvar Fornecedor</button>
+            <button class="btn" type="submit">Salvar</button>
           </div>
         
         </form>
