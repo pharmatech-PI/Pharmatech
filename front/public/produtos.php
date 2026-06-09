@@ -164,10 +164,10 @@
     </div>
 </div>
 
-<div class="btn-modal">
-    <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
-    <button class="btn" type="submit">Salvar produto</button>
-</div>
+        <div class="btn-modal">
+            <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
+            <button class="btn" type="submit">Salvar produto</button>
+        </div>
         
         </form>
       </div>

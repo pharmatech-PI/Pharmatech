@@ -34,6 +34,17 @@ class Produto {
                 }
             }
 
+
+            $stmtHist = $this->pdo->prepare("
+                INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
+                VALUES (?, 'cadastro_produto', ?, ?)
+            ");
+            
+            session_start();
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+            
+            $stmtHist->execute([$usuario_logado, $nome, $estoque]);
+
             $this->pdo->commit();
             return true;
 
@@ -71,13 +82,30 @@ class Produto {
     }
 
     public function listar() {
-    $sql = "SELECT produto.*, categoria.nome AS categoria_nome 
-            FROM produto 
-            INNER JOIN categoria ON produto.categoria_id = categoria.id 
-            ORDER BY produto.id ASC";
+        $sql = "SELECT produto.*, categoria.nome AS categoria_nome 
+                FROM produto 
+                INNER JOIN categoria ON produto.categoria_id = categoria.id 
+                ORDER BY produto.id ASC";
 
-    $stmt = $this->pdo->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function listarUltimasNotificacoes($limite = 5) {
+        try {
+            $limite_seguro = (int) $limite;
+            
+            $sql = "SELECT usuario_nome, acao, produto_nome, quantidade, data_criacao 
+                    FROM historico_movimentacao 
+                    ORDER BY id DESC 
+                    LIMIT {$limite_seguro}";
+                    
+            $stmt = $this->pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return []; 
+        }
+    }
 }
 ?>

@@ -96,6 +96,6 @@
             </main>
         </div>
     </div>
-    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>
