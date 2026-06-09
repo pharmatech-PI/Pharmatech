@@ -147,6 +147,35 @@ class Movimentacao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+     public function contarTotal() {
+        $sql = "SELECT COUNT(*) as total FROM movimentacao"; 
+        $stmt = $this->pdo->query($sql);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int) $resultado['total'];
+    }
+
+
+    public function listarPaginado($limite, $offset) {
+        try {
+            $limite_seguro = (int) $limite;
+            $offset_seguro = (int) $offset;
+
+            $sql = "SELECT m.*, p.nome AS produto_nome 
+                FROM movimentacao m 
+                INNER JOIN produto p ON m.produto_id = p.id 
+                ORDER BY m.id DESC LIMIT {$limite_seguro} OFFSET {$offset_seguro}";
+
+            $stmt = $this->pdo->query($sql);
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            die("Erro detectado: " . $e->getMessage());
+        }
+    }
+
+
     public function obterResumo() {
         $stmt = $this->pdo->query("SELECT tipo, COUNT(*) as total FROM movimentacao GROUP BY tipo");
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);

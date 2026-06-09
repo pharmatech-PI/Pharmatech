@@ -4,12 +4,24 @@
     require_once __DIR__ . '/../../back/app/models/movimentacao.php';
 
     $movimentacaoModel = new Movimentacao($pdo);
-    $listaMovimentacoes = $movimentacaoModel->listar();
 
-    $movimentacaoModel = new Movimentacao($pdo);
-    $listaMovimentacoes = $movimentacaoModel->listar();
     
-    // NOVO: Puxando os totais para os cards
+
+    $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    if ($pagina_atual < 1) {
+        $pagina_atual = 1;
+    }
+
+    $itens_por_pagina = 10; 
+
+    $offset = ($pagina_atual - 1) * $itens_por_pagina;
+
+    $total_itens = $movimentacaoModel->contarTotal();
+
+    $total_paginas = ceil($total_itens / $itens_por_pagina);
+
+    $listaMovimentacoes = $movimentacaoModel->listarPaginado($itens_por_pagina, $offset);
+
     $resumo = $movimentacaoModel->obterResumo();
 ?>
 
