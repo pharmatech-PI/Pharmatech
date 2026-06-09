@@ -4,6 +4,16 @@ require_once __DIR__ . '../../../../back/app/models/produto.php';
 $produtoModelNotificacoes = new Produto($pdo);
 
 $notificacoes = $produtoModelNotificacoes->listarUltimasNotificacoes(10);
+
+if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    $usuario_id = $_SESSION['usuario_id'] ?? 0;
+
+    $stmt = $pdo->prepare("SELECT nome_completo, email, telefone FROM usuario WHERE id = ?");
+    $stmt->execute([$usuario_id]);
+    $dadosUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <header>

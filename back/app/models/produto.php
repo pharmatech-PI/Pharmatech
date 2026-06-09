@@ -101,21 +101,17 @@ class Produto {
 
             $this->pdo->beginTransaction();
 
-            // 1. Pega o nome do produto antes de apagar (para avisar no sininho)
             $stmtNome = $this->pdo->prepare("SELECT nome FROM produto WHERE id = ?");
             $stmtNome->execute([$id]);
             $produto = $stmtNome->fetch(PDO::FETCH_ASSOC);
             $nomeProduto = $produto ? $produto['nome'] : 'Desconhecido';
 
-            // 2. Apaga as ligações na tabela fornecedor_produto
             $stmtAssoc = $this->pdo->prepare("DELETE FROM fornecedor_produto WHERE produto_id = ?");
             $stmtAssoc->execute([$id]);
 
-            // 3. Apaga o produto de fato
             $stmtProd = $this->pdo->prepare("DELETE FROM produto WHERE id = ?");
             $stmtProd->execute([$id]);
 
-            // 4. (BÔNUS) Registra a exclusão no sininho!
             $stmtHist = $this->pdo->prepare("
                 INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
                 VALUES (?, 'exclusao_produto', ?, 0)

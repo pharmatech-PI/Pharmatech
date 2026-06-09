@@ -6,7 +6,6 @@
     $movimentacaoModel = new Movimentacao($pdo);
 
     
-
     $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
     if ($pagina_atual < 1) {
         $pagina_atual = 1;
