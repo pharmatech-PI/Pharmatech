@@ -69,3 +69,32 @@ document.addEventListener('DOMContentLoaded', () => {
     btnFecharEditar.addEventListener('click', fecharModalEdit);
     btnCancelarEditar.addEventListener('click', fecharModalEdit);
 });
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const botoesEditarForn = document.querySelectorAll('.btn-editar-fornecedor');
+    const modalEditarForn = document.getElementById('modal-editar-fornecedor');
+    const btnFecharForn = document.getElementById('btn-fechar-editar-forn');
+    const btnCancelarForn = document.getElementById('btn-cancelar-editar-forn');
+
+    if (botoesEditarForn && modalEditarForn) {
+        botoesEditarForn.forEach(botao => {
+            botao.addEventListener('click', () => {
+                document.getElementById('edit_forn_id').value = botao.getAttribute('data-id');
+                document.getElementById('edit_forn_polo').value = botao.getAttribute('data-polo');
+                document.getElementById('edit_forn_razao').value = botao.getAttribute('data-razao');
+                document.getElementById('edit_forn_fantasia').value = botao.getAttribute('data-fantasia');
+                document.getElementById('edit_forn_cnpj').value = botao.getAttribute('data-cnpj');
+                document.getElementById('edit_forn_localidade').value = botao.getAttribute('data-localidade');
+
+                modalEditarForn.style.display = 'flex';
+            });
+        });
+
+        // Fechar Modal
+        const fecharModalForn = () => modalEditarForn.style.display = 'none';
+        btnFecharForn.addEventListener('click', fecharModalForn);
+        btnCancelarForn.addEventListener('click', fecharModalForn);
+    }
+});

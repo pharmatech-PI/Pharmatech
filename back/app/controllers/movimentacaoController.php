@@ -9,6 +9,11 @@ class MovimentacaoController {
     }
 
     public function registrarEntrada() {
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }   
+
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $produto_id    = (int)($_POST['produto_id'] ?? 0);
@@ -18,7 +23,7 @@ class MovimentacaoController {
             $fornecedor_id = (int)($_POST['fornecedor_id'] ?? 0);
             $validade = !empty($_POST['validade']) ? trim($_POST['validade']) : null;
             
-            $usuario_id = 1; 
+            $usuario_id = $_SESSION['usuario_id'] ?? 1;  
 
             if ($produto_id === 0 || $quantidade <= 0 || empty($nota_fiscal)) {
                 die("Erro: Produto, Quantidade (maior que zero) e Nota Fiscal são obrigatórios.");
@@ -42,6 +47,10 @@ class MovimentacaoController {
 
 
     public function registrarSaida() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }  
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $produto_id = (int)($_POST['produto_id'] ?? 0);
@@ -49,7 +58,7 @@ class MovimentacaoController {
             $motivo     = trim($_POST['motivo'] ?? '');
             $lote       = trim($_POST['lote'] ?? '');
             
-            $usuario_id = 1; 
+            $usuario_id = $_SESSION['usuario_id'] ?? 1;  
 
             if ($produto_id === 0 || $quantidade <= 0) {
                 die("Erro: Produto e Quantidade são obrigatórios e devem ser maiores que zero.");

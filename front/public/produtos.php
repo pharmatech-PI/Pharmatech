@@ -180,7 +180,7 @@
 
     <div class="btn-modal">
         <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
-         <button class="btn" type="submit">Salvar</button>
+         <button class="btn" type="submit">Salvar Agora</button>
     </div>
         
     </form>
@@ -240,7 +240,7 @@
 
                 <div class="btn-modal">
                     <button class="pagination-btn" type="button" id="btn-cancelar-editar">Cancelar</button>
-                    <button class="btn" type="submit">Atualizar produto</button>
+                    <button class="btn" type="submit">Salvar agora</button>
                 </div>
             </form>
         </div>

@@ -53,6 +53,30 @@ switch ($acao) {
         $produto = new produtoController($pdo);
         $produto->atualizar_produto();
         break;
+
+    case 'excluir_fornecedor':
+        $fornecedorController = new FornecedorController($pdo);
+        $fornecedorController->excluir();
+        break;
+
+    case 'atualizar_fornecedor':
+        $fornecedorController = new FornecedorController($pdo);
+        $fornecedorController->atualizar_fornecedor(); // Este método criamos no seu FornecedorController
+        break;
+
+    case 'buscar_fornecedores_ajax':
+        $produto_id = (int)($_GET['produto_id'] ?? 0);
+        
+        require_once __DIR__ . '/../app/models/fornecedor.php';
+        $fornecedorModel = new Fornecedor($pdo);
+        $fornecedores = $fornecedorModel->buscarPorProduto($produto_id);
+
+        header('Content-Type: application/json');
+        
+        echo json_encode($fornecedores);
+        
+        exit();
+        break;
         
 
     default:

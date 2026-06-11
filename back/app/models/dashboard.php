@@ -7,13 +7,13 @@ class Dashboard {
     }
 
     public function obterMetricas() {
-        $stmtTotal = $this->pdo->query("SELECT COUNT(*) as total FROM produto");
+        $stmtTotal = $this->pdo->query("SELECT COUNT(*) as total FROM produto WHERE status = 'Ativo'");
         $totalProdutos = $stmtTotal->fetch(PDO::FETCH_ASSOC)['total'];
 
-        $stmtBaixo = $this->pdo->query("SELECT COUNT(*) as total FROM produto WHERE estoque > 0 AND estoque <= 20");
+        $stmtBaixo = $this->pdo->query("SELECT COUNT(*) as total FROM produto WHERE estoque > 0 AND estoque <= 20 AND status = 'Ativo'");
         $estoqueBaixo = $stmtBaixo->fetch(PDO::FETCH_ASSOC)['total'];
 
-        $stmtZerado = $this->pdo->query("SELECT COUNT(*) as total FROM produto WHERE estoque = 0");
+        $stmtZerado = $this->pdo->query("SELECT COUNT(*) as total FROM produto WHERE estoque = 0 AND status = 'Ativo'");
         $semEstoque = $stmtZerado->fetch(PDO::FETCH_ASSOC)['total'];
 
         $stmtVenc20 = $this->pdo->query("
@@ -28,7 +28,8 @@ class Dashboard {
             SELECT COUNT(*) as total 
             FROM movimentacao 
             WHERE tipo = 'Entrada' AND validade IS NOT NULL 
-            AND validade >= CURDATE() AND validade <= DATE_ADD(CURDATE(), INTERVAL 90 DAY)
+            AND validade > DATE_ADD(CURDATE(), INTERVAL 20 DAY) 
+            AND validade <= DATE_ADD(CURDATE(), INTERVAL 90 DAY)
         ");
         $vencendo90 = $stmtVenc90->fetch(PDO::FETCH_ASSOC)['total'];
 
@@ -42,7 +43,7 @@ class Dashboard {
     }
 
     public function listarProdutosRecentes() {
-        $sql = "SELECT nome, sku, estoque FROM produto ORDER BY id DESC LIMIT 5";
+        $sql = "SELECT nome, sku, estoque FROM produto WHERE status = 'Ativo' ORDER BY id DESC LIMIT 5";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

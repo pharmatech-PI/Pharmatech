@@ -64,6 +64,10 @@ if (session_status() === PHP_SESSION_NONE) {
                                     echo 'editou o produto <br>';
                                     echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
                                 }
+                                elseif ($noti['acao'] === 'inativacao_produto') {
+                                    echo 'desativou o produto <br>';
+                                    echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
+                                }
                                 ?>
                                 
                                 <span class="noti-time">

@@ -9,6 +9,11 @@ class ProdutoController {
     }
 
     public function cadastrar() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $nome         = trim($_POST['nome'] ?? '');
@@ -19,7 +24,8 @@ class ProdutoController {
             $estoque      = (int)($_POST['estoque'] ?? 0);
             $status       = trim($_POST['status'] ?? 'Ativo');
             $categoria_id = (int)($_POST['categoria_id'] ?? 1); 
-            $usuario_id   = 1; 
+
+            $usuario_id = $_SESSION['usuario_id'] ?? 1; 
             
             $fornecedores = $_POST['fornecedores'] ?? []; 
 
@@ -54,12 +60,12 @@ class ProdutoController {
             require_once __DIR__ . '/../models/produto.php';
             $produtoModel = new Produto($this->pdo);
             
-            $excluiu = $produtoModel->excluir($id);
+            $inativou = $produtoModel->excluir($id);
 
-            if ($excluiu) {
-                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/produtos.php?status=excluido");
+            if ($inativou) {
+                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/produtos.php?status=inativado");
             } else {
-                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/produtos.php?status=erro_excluir");
+                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/produtos.php?status=erro_inativar");
             }
             exit();
         }

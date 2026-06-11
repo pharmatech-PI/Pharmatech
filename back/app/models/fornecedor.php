@@ -74,6 +74,87 @@ class Fornecedor {
     }
 
 
+
+    public function atualizar($id, $polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade) {
+        try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+
+            $this->pdo->beginTransaction();
+
+            $stmt = $this->pdo->prepare("
+                UPDATE fornecedor 
+                SET polo = ?, razao_social = ?, nome_fantasia = ?, cnpj = ?, localidade = ? 
+                WHERE id = ?
+            ");
+            $stmt->execute([$polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade, $id]);
+
+            $stmtHist = $this->pdo->prepare("
+                INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
+                VALUES (?, 'edicao_fornecedor', ?, 0)
+            ");
+            $stmtHist->execute([$usuario_logado, $nomeFantasia]);
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+
+
+    public function excluir($id) {
+        try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+
+            $this->pdo->beginTransaction();
+
+            $stmtNome = $this->pdo->prepare("SELECT nome_fantasia FROM fornecedor WHERE id = ?");
+            $stmtNome->execute([$id]);
+            $fornecedor = $stmtNome->fetch(PDO::FETCH_ASSOC);
+            $nomeFornecedor = $fornecedor ? $fornecedor['nome_fantasia'] : 'Desconhecido';
+
+            $stmtDel = $this->pdo->prepare("UPDATE fornecedor SET status = 'Inativo' WHERE id = ?");
+            $stmtDel->execute([$id]);
+
+            $stmtHist = $this->pdo->prepare("
+                INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
+                VALUES (?, 'inativacao_fornecedor', ?, 0)
+            ");
+            $stmtHist->execute([$usuario_logado, $nomeFornecedor]);
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+
+    public function buscarPorProduto($produto_id) {
+
+        $sql = "SELECT f.id, f.nome_fantasia, f.cnpj 
+                FROM fornecedor f
+                INNER JOIN fornecedor_produto fp ON f.id = fp.fornecedor_id
+                WHERE fp.produto_id = ? AND f.status = 'Ativo'";
+                
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$produto_id]);
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function listar() {
         $stmt = $this->pdo->query("SELECT * FROM fornecedor ORDER BY id ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

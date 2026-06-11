@@ -8,8 +8,8 @@
     $produtoModel = new Produto($pdo);
     $listaProdutos = $produtoModel->listar();
 
-    $fornecedorModel = new Fornecedor($pdo);
-    $listaFornecedores = $fornecedorModel->listar();
+    // DICA: Não precisamos mais listar todos os fornecedores aqui no topo!
+    // O JavaScript vai buscar apenas os fornecedores certos direto no banco.
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +44,7 @@
                                 
                                 <div class="grid-item">
                                     <span>Produto</span>
-                                    <select name="produto_id" required>
+                                    <select name="produto_id" id="produto_select" required>
                                         <option value="" disabled selected>Selecione o produto</option>
                                         <?php foreach ($listaProdutos as $p): ?>
                                             <option value="<?= htmlspecialchars($p['id']) ?>">
@@ -76,13 +76,8 @@
 
                                 <div class="grid-item grid-item--full">
                                     <span>Fornecedor</span>
-                                    <select name="fornecedor_id" required>
-                                        <option value="" disabled selected>Selecione o fornecedor</option>
-                                        <?php foreach ($listaFornecedores as $f): ?>
-                                            <option value="<?= htmlspecialchars($f['id']) ?>">
-                                                <?= htmlspecialchars($f['nome_fantasia']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
+                                    <select name="fornecedor_id" id="fornecedor_select" required>
+                                        <option value="" disabled selected>Selecione um produto primeiro</option>
                                     </select>
                                 </div>            
                             </div>
@@ -98,7 +93,52 @@
     </div>
     <script type="module" src="./js/main.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectProduto = document.getElementById('produto_select');
+            const selectFornecedor = document.getElementById('fornecedor_select');
 
-       
+            if (selectProduto && selectFornecedor) {
+                selectProduto.addEventListener('change', async function() {
+                    const produtoId = this.value;
+
+                    // Mostra um aviso de carregamento enquanto busca no banco
+                    selectFornecedor.innerHTML = '<option value="" disabled selected>Carregando fornecedores...</option>';
+
+                    if (!produtoId) {
+                        selectFornecedor.innerHTML = '<option value="" disabled selected>Selecione um produto primeiro</option>';
+                        return;
+                    }
+
+                    try {
+                        // Faz a requisição na rota invisível que criamos
+                        const resposta = await fetch(`/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=buscar_fornecedores_ajax&produto_id=${produtoId}`);
+                        const fornecedores = await resposta.json();
+
+                        // Limpa o select para colocar os novos dados
+                        selectFornecedor.innerHTML = '<option value="" disabled selected>Selecione o fornecedor</option>';
+
+                        // Se o produto não tiver fornecedor cadastrado
+                        if (fornecedores.length === 0) {
+                            selectFornecedor.innerHTML = '<option value="" disabled selected>Nenhum fornecedor vinculado a este produto</option>';
+                            return;
+                        }
+
+                        // Preenche os fornecedores magicamente
+                        fornecedores.forEach(f => {
+                            const option = document.createElement('option');
+                            option.value = f.id;
+                            option.textContent = `${f.nome_fantasia} (${f.cnpj})`;
+                            selectFornecedor.appendChild(option);
+                        });
+
+                    } catch (erro) {
+                        console.error("Erro ao buscar fornecedores:", erro);
+                        selectFornecedor.innerHTML = '<option value="" disabled selected>Erro ao carregar</option>';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

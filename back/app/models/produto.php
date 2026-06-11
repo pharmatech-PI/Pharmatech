@@ -7,8 +7,12 @@ class Produto {
     }
 
     public function cadastrar($nome, $sku, $preco, $estoque, $status, $usuario_id, $categoria_id, $fornecedores) {
-        
         try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
+
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare("SELECT id FROM produto WHERE sku = ?");
@@ -34,14 +38,10 @@ class Produto {
                 }
             }
 
-
             $stmtHist = $this->pdo->prepare("
                 INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
                 VALUES (?, 'cadastro_produto', ?, ?)
             ");
-            
-            session_start();
-            $usuario_logado = $_SESSION['usuario_nome'] ?? 'Administrador';
             
             $stmtHist->execute([$usuario_logado, $nome, $estoque]);
 
@@ -50,7 +50,9 @@ class Produto {
 
         } catch (Exception $e) {
             $this->pdo->rollBack();
-            return false;
+            
+            // SE AINDA ASSIM DER ERRO, ISSO AQUI VAI TE MOSTRAR NA TELA O QUE É
+            die("Erro no Banco de Dados: " . $e->getMessage());
         }
     }
 
@@ -106,15 +108,12 @@ class Produto {
             $produto = $stmtNome->fetch(PDO::FETCH_ASSOC);
             $nomeProduto = $produto ? $produto['nome'] : 'Desconhecido';
 
-            $stmtAssoc = $this->pdo->prepare("DELETE FROM fornecedor_produto WHERE produto_id = ?");
-            $stmtAssoc->execute([$id]);
-
-            $stmtProd = $this->pdo->prepare("DELETE FROM produto WHERE id = ?");
+            $stmtProd = $this->pdo->prepare("UPDATE produto SET status = 'Inativo' WHERE id = ?");
             $stmtProd->execute([$id]);
 
             $stmtHist = $this->pdo->prepare("
                 INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
-                VALUES (?, 'exclusao_produto', ?, 0)
+                VALUES (?, 'inativacao_produto', ?, 0)
             ");
             $stmtHist->execute([$usuario_logado, $nomeProduto]);
 
