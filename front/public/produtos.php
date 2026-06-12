@@ -47,6 +47,37 @@
                     <span class="fornecedor-title">Produtos</span>
                     <button class="btn" data-modal="abrir">+ Novo Produto</button>
                 </div>
+
+            <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == '1'): ?>
+                <div id="alert-message" class="alert alert-success">
+                    Produto cadastrado com sucesso!
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['erro']) && $_GET['erro'] == 'sku_duplicado'): ?>
+                <div class="alert alert-error">
+                    Já existe um produto cadastrado com este SKU.
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['erro']) && $_GET['erro'] == 'falha_cadastro'): ?>
+                <div class="alert alert-error">
+                    Ocorreu um erro ao cadastrar o produto.
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['status']) && $_GET['status'] == 'editado'): ?>
+                <div class="alert alert-success">
+                    Produto atualizado com sucesso!
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['status']) && $_GET['status'] == 'inativado'): ?>
+                <div class="alert alert-inativo">
+                    Produto inativado com sucesso!
+                </div>
+            <?php endif; ?>
+
                 <section class="produtos">
                  <div class="produtos-container">
 
@@ -117,8 +148,8 @@
                                                     data-status="<?= htmlspecialchars($produto['status']) ?>"
                                                     data-categoria="<?= htmlspecialchars($produto['categoria_id']) ?>">         
 
-                                                <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_produto&id=<?= $produto['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir o produto <?= htmlspecialchars($produto['nome']) ?>?');">
-                                                    <img src="./assets/icons/lixeira.svg" style="width: 20px; height: 20px;" alt="icone de lixeira" style="cursor: pointer;">
+                                                <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_produto&id=<?= $produto['id'] ?>" onclick="return confirm('Tem certeza que deseja inativar o produto <?= htmlspecialchars($produto['nome']) ?>?');">
+                                                    <img src="./assets/icons/power.svg" style="width: 26px; height: 26px;" alt="icone de power" style="cursor: pointer;">
                                                 </a>   
                                                 <?php else: ?>
                                                     <span style="color: #999; font-size: 12px; font-style: italic;">Sem permissão</span>
