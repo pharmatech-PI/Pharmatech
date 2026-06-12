@@ -73,7 +73,7 @@
                     <div class="card">
                         <div class="card-flex">
                             <p>Vencendo em 20 dias</p>
-                            <img src="assets/icons/livro-marcado.svg" alt="icone de bookmark">
+                            <img src="assets/icons/perigo.svg" alt="icone de perigo">
                         </div>
                         <span><?= $metricas['vencendo_20'] ?></span>
                     </div>
@@ -81,7 +81,8 @@
                     <div class="card">
                         <div class="card-flex">
                             <p>Vencendo em 90 dias</p>
-                            <img src="assets/icons/perigo.svg" alt="icone de perigo">
+                            <img src="assets/icons/livro-marcado.svg" alt="icone de bookmark">
+                         
                         </div>
                         <span><?= $metricas['vencendo_90'] ?></span>
                     </div>

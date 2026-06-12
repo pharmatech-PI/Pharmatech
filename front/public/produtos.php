@@ -197,12 +197,19 @@
     
     <div class="input-wrapper">
         <label for="estoque">Estoque inicial</label>
-        <input type="number" name="estoque" id="estoque" placeholder="0" required/>
+        <input type="number" name="estoque" id="estoque" placeholder="0" disabled/>
     </div>
     
     <div class="input-wrapper">
         <label for="status">Status</label>
-        <input type="text" name="status" id="status" placeholder="Ativo" value="Ativo"/>
+        <input type="text" 
+            name="status" 
+            id="status" 
+            placeholder="Ativo" 
+            value="Ativo"
+            pattern="[Aa]tivo|[Ii]nativo" 
+            title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+            required />
     </div>
 
     <div class="input-wrapper input-modal-fornecedor">
@@ -265,7 +272,14 @@
                     
                     <div class="input-wrapper">
                         <label for="edit_status">Status</label>
-                        <input type="text" name="status" id="edit_status" required/>
+                        <input type="text" 
+                            name="status" 
+                            id="edit_status" 
+                            placeholder="Ativo" 
+                            value="Ativo"
+                            pattern="[Aa]tivo|[Ii]nativo" 
+                            title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+                            required />
                     </div>
 
                     <div class="input-wrapper input-modal-fornecedor">
@@ -284,7 +298,7 @@
                 </div>
             </div>
 
-                <div class="btn-modal">
+                <div class="btn-modal" >
                     <button class="pagination-btn" type="button" id="btn-cancelar-editar">Cancelar</button>
                     <button class="btn" type="submit">Salvar agora</button>
                 </div>

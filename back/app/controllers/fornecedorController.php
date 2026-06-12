@@ -26,14 +26,13 @@ class FornecedorController {
             $fornecedorModel = new Fornecedor($this->pdo);
             $cadastrou = $fornecedorModel->cadastrar($polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade);
 
-            if ($cadastrou) {
-                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/fornecedores.php?sucesso=1");
-                exit;
-            } else {
-                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/fornecedores.php?erro=cnpj_duplicado");
-                exit;
-            }
+          if ($cadastrou === true) {
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/fornecedores.php?sucesso=1");
+            exit;
+          }
 
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/fornecedores.php?erro=cnpj_duplicado");
+            exit;
         } else {
             echo "Acesso inválido.";
         }

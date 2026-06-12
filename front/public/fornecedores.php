@@ -37,6 +37,31 @@
              <main class="content-area">
                 <div class="fornecedor-group">
                     <span class="fornecedor-title">Fornecedores</span>
+
+                    <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == '1'): ?>
+                        <div id="alert-message" class="alert alert-success">
+                            Fornecedor cadastrado com sucesso!
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_GET['erro']) && $_GET['erro'] == 'cnpj_duplicado'): ?>
+                        <div class="alert alert-error">
+                            Já existe um fornecedor cadastrado com este CNPJ.
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_GET['status']) && $_GET['status'] == 'editado'): ?>
+                        <div class="alert alert-success">
+                            Fornecedor atualizado com sucesso!
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_GET['status']) && $_GET['status'] == 'inativado'): ?>
+                        <div class="alert alert-inativo">
+                            Fornecedor inativado com sucesso!
+                        </div>
+                    <?php endif; ?>
+
                     <button class="btn" data-modal="abrir">+ Novo Fornecedor</button>
                 </div>
                 <div class="fornecedor-container-alinhamento">
@@ -82,7 +107,7 @@
                                             <td><?= htmlspecialchars($f['localidade']) ?></td>
 
                                             <td>
-                                                <?php if (strtolower($f['status']) === 'ativo'): ?>
+                                                <?php if (trim(strtolower($f['status'])) === 'ativo'): ?>
                                                     <span class="status-badge green">Ativo</span>
                                                 <?php else: ?>
                                                     <span class="status-badge red">Inativo</span>
@@ -130,28 +155,37 @@
         <div class="input-modal">
             <div class="input-wrapper">
                 <label for="name">Razão Social</label>
-                <input type="text" name="razao_social" for="name" id="name" placeholder="Ex: Pharma Brasil Ltda"/>
+                <input type="text" name="razao_social" for="name" id="name" placeholder="Ex: Pharma Brasil Ltda" required/>
             </div>
             <div class="input-wrapper">
                 <label for="fantasia">Nome Fantasia</label>
-                <input  name="nome_fantasia" type="text" for="fantasia" id="fantasia" placeholder="Ex: PharmaBR"/>
+                <input  name="nome_fantasia" type="text" for="fantasia" id="fantasia" placeholder="Ex: PharmaBR" required/>
             </div>
                <div class="input-wrapper">
                 <label for="cnpj">CNPJ</label>
-                <input name="cnpj" type="text" for="cnpj" id="cnpj" placeholder="00.000.000/00000"/>
+                <input name="cnpj" type="text" for="cnpj" id="cnpj" placeholder="00.000.000/00000" required/>
             </div>
                <div class="input-wrapper">
                 <label for="polo">Polo</label>
-                <input name="polo" type="text" for="polo" id="polo" placeholder="Selecione"/>
+                <input name="polo" type="text" for="polo" id="polo" placeholder="Selecione" required/>
             </div>
             <div class="input-wrapper">
                 <label for="localidade">localidade</label>
-                <input name="localidade" type="text" for="localidade" id="localidade" placeholder="Ex: São Paulo - SP"/>
+                <input name="localidade" type="text" for="localidade" id="localidade" placeholder="Ex: São Paulo - SP" required/>
             </div>
+
             <div class="input-wrapper">
-                <label for="status">status</label>
-                <input type="text" for="status" id="status" placeholder="Ativo"/>
+                <label for="status">Status</label>
+                <input type="text" 
+                    name="status" 
+                    id="status" 
+                    placeholder="Ativo" 
+                    value="Ativo"
+                    pattern="[Aa]tivo|[Ii]nativo" 
+                    title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+                    required />
             </div>
+            
             <div class="input-wrapper input-modal-fornecedor">
                 <label for="email">E-mail de contato</label>
                 <input type="email" for="email" id="email" placeholder="contato@empresa.com"/>
@@ -160,7 +194,7 @@
             </div>
         </div>
           <div class="btn-modal">
-            <button class="pagination-btn" type="button">Cancelar</button>
+            <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
             <button class="btn" type="submit">Salvar</button>
           </div>
         
@@ -202,7 +236,10 @@
             
              <div class="input-wrapper">
                 <label for="edit_forn_status">Status</label>
-                <input type="text" name="status" id="edit_forn_status"/>
+                <input type="text" name="status" id="edit_forn_status" 
+                    pattern="[Aa]tivo|[Ii]nativo" 
+                    title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+                    required />
             </div>
         </div>
         

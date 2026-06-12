@@ -2,7 +2,6 @@
     require_once __DIR__ . '/../../back/config/trava.php'; 
     require_once __DIR__ . '/../../back/config/config.php';
     
-    // Trazendo apenas o Model de Produto (não precisamos de Fornecedor aqui)
     require_once __DIR__ . '/../../back/app/models/produto.php';
 
     $produtoModel = new Produto($pdo);
@@ -63,6 +62,7 @@
                                         <option value="Descarte (Vencido)">Descarte (Vencido)</option>
                                         <option value="Ajuste de Estoque">Ajuste de Estoque</option>
                                         <option value="Uso Interno">Uso Interno</option>
+                                        <option value="Devolução para fornecedor">Devolução para fornecedor</option>
                                     </select>
                                 </div>
 
