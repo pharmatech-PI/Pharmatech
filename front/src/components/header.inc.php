@@ -80,7 +80,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </ul>
             </div>
         </div>
-        <img src="assets/icons/dark-mode.svg" alt="icone de dark mode">
+        
 
 
         <a href="/PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php" class="profile-picture">

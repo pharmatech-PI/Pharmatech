@@ -53,21 +53,21 @@
   }
 
   .footer-sidebar {
-      display: flex;
-      margin-top: auto;
-      flex-direction: column;
-      gap: 12px;
+    display: flex;
+    margin-top: auto;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .footer-sidebar a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--text-primary);
-      font-size: 0.875rem;
-      font-family: var(--font-poppins);
-      font-weight: 600;
-      text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    text-decoration: none;
   }
 
   .footer-sidebar .logout span {

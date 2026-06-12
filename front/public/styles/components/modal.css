@@ -67,6 +67,9 @@
   .input-wrapper {
     width: 249px;
   }
+  .input-modal-fornecedor {
+    grid-column: 1 / -1;
+  }
 }
 
 .input-modal .input-wrapper.input-modal-fornecedor {
@@ -99,4 +102,47 @@
 
 .input-wrapper .pagination-btn {
   padding: 10px 20px;
+}
+
+.input-wrapper select {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  border: 2px solid #e1e7ef;
+  border-radius: 8px;
+  background-color: white;
+  font-family: var(--font-poppins);
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-wrapper select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--primary-color), transparent 85%);
+}
+
+.input-wrapper select option {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.input-wrapper select option:checked {
+  background: var(--primary-color);
+  color: white;
+}
+
+.input-wrapper select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.input-wrapper select::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 8px;
+}
+
+.input-wrapper select::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }

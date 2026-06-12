@@ -81,106 +81,104 @@ header {
   }
 }
 
-
 .notification-wrapper {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .notification-dropdown {
-    display: none; 
-    position: absolute;
-    right: -10px; 
-    top: 40px; 
-    width: 280px;
-    background-color: #ffffff;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    z-index: 9999; 
+  display: none;
+  position: absolute;
+  right: -10px;
+  top: 40px;
+  width: 280px;
+  background-color: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  z-index: 9999;
 }
 
 .notification-dropdown.mostrar {
-    display: block;
+  display: block;
 }
 
 .notification-header {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee;
-    background-color: #f8f9fa;
-    border-radius: 8px 8px 0 0;
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  background-color: #f8f9fa;
+  border-radius: 8px 8px 0 0;
 }
 
 .notification-header h4 {
-    margin: 0;
-    font-size: 14px;
-    color: #333;
+  margin: 0;
+  font-size: 14px;
+  color: #333;
 }
 
 .notification-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    max-height: 250px; 
-    overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .notification-list li {
-    padding: 12px 15px;
-    border-bottom: 1px solid #f1f1f1;
-    font-size: 13px;
-    color: #555;
-    line-height: 1.4;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.4;
 }
 
 .notification-list li:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .noti-user {
-    font-weight: 600;
-    color: #0056b3; 
+  font-weight: 600;
+  color: #0056b3;
 }
 
 .noti-time {
-    display: block;
-    font-size: 11px;
-    color: #888;
-    margin-top: 4px;
+  display: block;
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
 }
 
-
 .bell-container {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .notification-badge {
-    position: absolute;
-    top: -2px;          
-    right: -2px;        
-    width: 10px;        
-    height: 10px;       
-    background-color: #dc3545; 
-    border-radius: 50%; 
-    border: 2px solid #ffffff; 
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background-color: #dc3545;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
 }
 
 .profile-picture .profile-circle.secondary {
-    border-radius: 100%;
-    height: 40px;
-    width: 40px;
-    background-color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-picture .profile-circle.secondary span {
-    font-size: 15px;
-    color: white;
-    font-family: var(--font-poppins);
-    font-weight: 700;
+  font-size: 15px;
+  color: white;
+  font-family: var(--font-poppins);
+  font-weight: 700;
 }
 
 @keyframes alarm {
