@@ -170,9 +170,9 @@ class Fornecedor {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public function listar() {
-        $stmt = $this->pdo->query("SELECT * FROM fornecedor ORDER BY id ASC");
+    public function listarAtivos() {
+        $sql = "SELECT * FROM fornecedor WHERE status = 'Ativo' ORDER BY nome_fantasia ASC";
+        $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

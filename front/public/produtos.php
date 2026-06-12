@@ -4,30 +4,28 @@
     require_once __DIR__ . '/../../back/app/models/fornecedor.php';
     require_once __DIR__ . '/../../back/app/models/produto.php';
 
-
-
     $produtoModel = new Produto($pdo);
 
-    
+    $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
+ 
     $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
     if ($pagina_atual < 1) {
         $pagina_atual = 1;
     }
 
-    $itens_por_pagina = 2; 
-
+    $itens_por_pagina = 10; 
 
     $offset = ($pagina_atual - 1) * $itens_por_pagina;
-
     
-    $total_itens = $produtoModel->contarTotal();
+    $total_itens = $produtoModel->contarTotal($busca);
 
     $total_paginas = ceil($total_itens / $itens_por_pagina);
 
-    $listaProdutos = $produtoModel->listarPaginado($itens_por_pagina, $offset);
+    $listaProdutos = $produtoModel->listarPaginado($itens_por_pagina, $offset, $busca);
 
     $fornecedorModel = new Fornecedor($pdo);
-    $listaFornecedores = $fornecedorModel->listar();
+
+    $listaFornecedores = $fornecedorModel->listarAtivos();
 ?>
 
 <!DOCTYPE html>
@@ -51,12 +49,19 @@
                 </div>
                 <section class="produtos">
                  <div class="produtos-container">
-                    <div class="table-header">
-                        <div class="input-search">
+
+                    <form  class="search-form" action="" method="GET" style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+                        <div class="input-search" style="margin-bottom: 0; flex-grow: 1;">
                             <img src="assets/icons/search.svg" alt="buscar">
-                            <input type="text" id="busca-produto" placeholder="Buscar Produtos ou SKU...">
+                            <input type="text" name="busca" placeholder="Buscar Produto ou SKU..." value="<?= htmlspecialchars($busca) ?>">
                         </div>
-                    </div>
+                        
+                        <button type="submit" class="btn btn-buscar">Buscar</button>
+                        
+                        <?php if (!empty($busca)): ?>
+                            <a href="?" class="btn-picture" style="text-decoration: none; padding: 10px 20px; display: flex; align-items: center;">Limpar</a>
+                        <?php endif; ?>
+                    </form>
 
                     <table class="produto-table">
                         <thead>
@@ -233,16 +238,20 @@
                     </div>
 
                     <div class="input-wrapper input-modal-fornecedor">
-                        <label for="edit_fornecedores">Fornecedores (Segure CTRL para marcar vários)</label>
-                        <select name="fornecedores[]" id="edit_fornecedores" multiple required>
-                            <?php foreach ($listaFornecedores as $f): ?>
+                    <label for="edit_fornecedores">Fornecedores (Segure CTRL para marcar vários)</label>
+                    <select name="fornecedores[]" id="edit_fornecedores" multiple required>
+                        
+                        <?php foreach ($listaFornecedores as $f): ?>
+                            <?php if (isset($f['status']) && strtolower($f['status']) === 'ativo'): ?>
+                                
                                 <option value="<?= htmlspecialchars($f['id']) ?>">
                                     <?= htmlspecialchars($f['nome_fantasia']) ?> (<?= htmlspecialchars($f['cnpj']) ?>)
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                                </option>                
+                            <?php endif; ?>
+                        <?php endforeach; ?>     
+                    </select>
                 </div>
+            </div>
 
                 <div class="btn-modal">
                     <button class="pagination-btn" type="button" id="btn-cancelar-editar">Cancelar</button>
