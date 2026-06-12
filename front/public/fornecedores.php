@@ -37,6 +37,31 @@
              <main class="content-area">
                 <div class="fornecedor-group">
                     <span class="fornecedor-title">Fornecedores</span>
+
+                    <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == '1'): ?>
+                        <div id="alert-message" class="alert alert-success">
+                            Fornecedor cadastrado com sucesso!
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_GET['erro']) && $_GET['erro'] == 'cnpj_duplicado'): ?>
+                        <div class="alert alert-error">
+                            Já existe um fornecedor cadastrado com este CNPJ.
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_GET['status']) && $_GET['status'] == 'editado'): ?>
+                        <div class="alert alert-success">
+                            Fornecedor atualizado com sucesso!
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_GET['status']) && $_GET['status'] == 'inativado'): ?>
+                        <div class="alert alert-inativo">
+                            Fornecedor inativado com sucesso!
+                        </div>
+                    <?php endif; ?>
+
                     <button class="btn" data-modal="abrir">+ Novo Fornecedor</button>
                 </div>
                 <div class="fornecedor-container-alinhamento">
