@@ -46,25 +46,45 @@ class Fornecedor {
         }   
     }
 
-
-    public function contarTotal() {
-        $sql = "SELECT COUNT(*) as total FROM fornecedor"; 
-        $stmt = $this->pdo->query($sql);
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+    public function contarTotal($busca = '') {
+        if (!empty($busca)) {
+            $sql = "SELECT COUNT(*) as total FROM fornecedor WHERE razao_social LIKE :busca OR cnpj LIKE :busca";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':busca', '%' . $busca . '%');
+            $stmt->execute();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $sql = "SELECT COUNT(*) as total FROM fornecedor"; 
+            $stmt = $this->pdo->query($sql);
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
         return (int) $resultado['total'];
     }
 
-    public function listarPaginado($limite, $offset) {
+    public function listarPaginado($limite, $offset, $busca = '') {
         try {
             $limite_seguro = (int) $limite;
             $offset_seguro = (int) $offset;
 
-            $sql = "SELECT *
-                    FROM fornecedor 
-                    ORDER BY id ASC 
-                    LIMIT {$limite_seguro} OFFSET {$offset_seguro}";
-
-            $stmt = $this->pdo->query($sql);
+            if (!empty($busca)) {
+                $sql = "SELECT * FROM fornecedor 
+                        WHERE razao_social LIKE :busca OR cnpj LIKE :busca 
+                        ORDER BY id ASC 
+                        LIMIT :limite OFFSET :offset";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindValue(':busca', '%' . $busca . '%');
+                $stmt->bindValue(':limite', $limite_seguro, PDO::PARAM_INT);
+                $stmt->bindValue(':offset', $offset_seguro, PDO::PARAM_INT);
+                $stmt->execute();
+            } else {
+                $sql = "SELECT * FROM fornecedor 
+                        ORDER BY id ASC 
+                        LIMIT :limite OFFSET :offset";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindValue(':limite', $limite_seguro, PDO::PARAM_INT);
+                $stmt->bindValue(':offset', $offset_seguro, PDO::PARAM_INT);
+                $stmt->execute();
+            }
             
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -72,8 +92,6 @@ class Fornecedor {
             die("Erro detectado: " . $e->getMessage());
         }
     }
-
-
 
     public function atualizar($id, $polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade) {
         try {
@@ -105,8 +123,6 @@ class Fornecedor {
             return false;
         }
     }
-
-
 
     public function excluir($id) {
         try {
