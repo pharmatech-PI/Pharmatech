@@ -158,7 +158,7 @@
             </div>
         </div>
           <div class="btn-modal">
-            <button class="pagination-btn" type="button">Cancelar</button>
+            <button class="pagination-btn" type="button" data-modal="fechar">Cancelar</button>
             <button class="btn" type="submit">Salvar</button>
           </div>
         

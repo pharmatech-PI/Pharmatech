@@ -63,6 +63,7 @@
                                         <option value="Descarte (Vencido)">Descarte (Vencido)</option>
                                         <option value="Ajuste de Estoque">Ajuste de Estoque</option>
                                         <option value="Uso Interno">Uso Interno</option>
+                                        <option value="Devolução para fornecedor">Devolução para fornecedor</option>
                                     </select>
                                 </div>
 

@@ -192,7 +192,7 @@
     
     <div class="input-wrapper">
         <label for="estoque">Estoque inicial</label>
-        <input type="number" name="estoque" id="estoque" placeholder="0" required/>
+        <input type="number" name="estoque" id="estoque" placeholder="0" disabled/>
     </div>
     
     <div class="input-wrapper">
@@ -275,7 +275,7 @@
                     </div>
                 </div>
 
-                <div class="btn-modal">
+                <div class="btn-modal" >
                     <button class="pagination-btn" type="button" id="btn-cancelar-editar">Cancelar</button>
                     <button class="btn" type="submit">Salvar agora</button>
                 </div>
