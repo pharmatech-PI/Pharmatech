@@ -14,7 +14,7 @@
         $pagina_atual = 1;
     }
 
-    $itens_por_pagina = 10; 
+    $itens_por_pagina = 2; 
 
 
     $offset = ($pagina_atual - 1) * $itens_por_pagina;
