@@ -148,10 +148,19 @@
                 <label for="localidade">localidade</label>
                 <input name="localidade" type="text" for="localidade" id="localidade" placeholder="Ex: São Paulo - SP"/>
             </div>
+
             <div class="input-wrapper">
-                <label for="status">status</label>
-                <input type="text" for="status" id="status" placeholder="Ativo"/>
+                <label for="status">Status</label>
+                <input type="text" 
+                    name="status" 
+                    id="status" 
+                    placeholder="Ativo" 
+                    value="Ativo"
+                    pattern="[Aa]tivo|[Ii]nativo" 
+                    title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+                    required />
             </div>
+            
             <div class="input-wrapper input-modal-fornecedor">
                 <label for="email">E-mail de contato</label>
                 <input type="email" for="email" id="email" placeholder="contato@empresa.com"/>
@@ -202,7 +211,10 @@
             
              <div class="input-wrapper">
                 <label for="edit_forn_status">Status</label>
-                <input type="text" name="status" id="edit_forn_status"/>
+                <input type="text" name="status" id="edit_forn_status" 
+                    pattern="[Aa]tivo|[Ii]nativo" 
+                    title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+                    required />
             </div>
         </div>
         

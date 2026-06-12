@@ -202,7 +202,14 @@
     
     <div class="input-wrapper">
         <label for="status">Status</label>
-        <input type="text" name="status" id="status" placeholder="Ativo" value="Ativo"/>
+        <input type="text" 
+            name="status" 
+            id="status" 
+            placeholder="Ativo" 
+            value="Ativo"
+            pattern="[Aa]tivo|[Ii]nativo" 
+            title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+            required />
     </div>
 
     <div class="input-wrapper input-modal-fornecedor">
@@ -265,7 +272,14 @@
                     
                     <div class="input-wrapper">
                         <label for="edit_status">Status</label>
-                        <input type="text" name="status" id="edit_status" required/>
+                        <input type="text" 
+                            name="status" 
+                            id="edit_status" 
+                            placeholder="Ativo" 
+                            value="Ativo"
+                            pattern="[Aa]tivo|[Ii]nativo" 
+                            title="Por favor, digite apenas 'Ativo' ou 'Inativo'" 
+                            required />
                     </div>
 
                     <div class="input-wrapper input-modal-fornecedor">
