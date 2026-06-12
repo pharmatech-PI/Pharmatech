@@ -13,14 +13,11 @@
 
     $itens_por_pagina = 10; 
 
-
     $offset = ($pagina_atual - 1) * $itens_por_pagina;
 
-    
     $total_itens = $fornecedorModel->contarTotal();
 
     $total_paginas = ceil($total_itens / $itens_por_pagina);
-
 
     $fornecedores = $fornecedorModel->listarPaginado($itens_por_pagina, $offset);
 ?>
@@ -89,17 +86,22 @@
 
                                             <td>
                                                 <div style="display: flex; aling-items: center; gap: 5px;">
-                                                <img src="./assets/icons/pencil.svg" alt="Editar" class="btn-editar-fornecedor" style="cursor: pointer;"
-                                                    data-id="<?= htmlspecialchars($f['id']) ?>"
-                                                    data-polo="<?= htmlspecialchars($f['polo']) ?>"
-                                                    data-razao="<?= htmlspecialchars($f['razao_social']) ?>"
-                                                    data-fantasia="<?= htmlspecialchars($f['nome_fantasia']) ?>"
-                                                    data-cnpj="<?= htmlspecialchars($f['cnpj']) ?>"
-                                                    data-localidade="<?= htmlspecialchars($f['localidade']) ?>">        
 
-                                                    <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_fornecedor&id=<?= $f['id'] ?>" onclick="return confirm('Tem certeza que deseja inativar este fornecedor?');">
-                                                        <img src="./assets/icons/lixeira.svg" style="width: 20px; height: 20px;" alt="Inativar">
-                                                    </a> 
+                                                    <?php if (isset($_SESSION['nivel_acesso']) && $_SESSION['nivel_acesso'] === 'admin'): ?>
+                                                    <img src="./assets/icons/pencil.svg" alt="Editar" class="btn-editar-fornecedor" style="cursor: pointer;"
+                                                        data-id="<?= htmlspecialchars($f['id']) ?>"
+                                                        data-polo="<?= htmlspecialchars($f['polo']) ?>"
+                                                        data-razao="<?= htmlspecialchars($f['razao_social']) ?>"
+                                                        data-fantasia="<?= htmlspecialchars($f['nome_fantasia']) ?>"
+                                                        data-cnpj="<?= htmlspecialchars($f['cnpj']) ?>"
+                                                        data-localidade="<?= htmlspecialchars($f['localidade']) ?>">        
+
+                                                        <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_fornecedor&id=<?= $f['id'] ?>" onclick="return confirm('Tem certeza que deseja inativar este fornecedor?');">
+                                                            <img src="./assets/icons/lixeira.svg" style="width: 20px; height: 20px;" alt="Inativar">
+                                                        </a> 
+                                                    <?php else: ?>
+                                                        <span style="color: #999; font-size: 12px; font-style: italic;">Sem permissão</span>
+                                                    <?php endif; ?>
                                                 </div>
                                             </td>
                                         </tr>

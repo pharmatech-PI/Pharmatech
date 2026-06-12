@@ -12,13 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnNotificacao = document.getElementById('btn-notificacao');
     const dropdownNotificacao = document.getElementById('dropdown-notificacao');
 
-    console.log("Botão:", btnNotificacao, "Caixa:", dropdownNotificacao);
-
     if (btnNotificacao && dropdownNotificacao) {
         
         btnNotificacao.addEventListener('click', (event) => {
-
-            console.log("CLICOU NO SININHO!");
 
             dropdownNotificacao.classList.toggle('mostrar');
             event.stopPropagation(); 

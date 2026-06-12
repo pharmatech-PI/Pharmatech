@@ -39,6 +39,15 @@ class FornecedorController {
 
 
     public function atualizar_fornecedor() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (!isset($_SESSION['nivel_acesso']) || $_SESSION['nivel_acesso'] !== 'admin') {
+            die("Erro 403: Acesso negado. Apenas administradores podem realizar esta ação.");
+        }
+
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id           = (int) ($_POST['id'] ?? 0);
             $polo         = trim($_POST['polo'] ?? '');
@@ -66,6 +75,14 @@ class FornecedorController {
     }
 
     public function excluir() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (!isset($_SESSION['nivel_acesso']) || $_SESSION['nivel_acesso'] !== 'admin') {
+            die("Erro 403: Acesso negado. Apenas administradores podem realizar esta ação.");
+        }
+
         if (isset($_GET['id'])) {
             $id = (int) $_GET['id'];
             

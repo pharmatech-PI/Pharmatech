@@ -77,7 +77,41 @@ switch ($acao) {
         
         exit();
         break;
-        
+
+    case 'alterar_permissao_usuario':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['nivel_acesso']) || $_SESSION['nivel_acesso'] !== 'admin') {
+            die("Acesso negado.");
+        }
+
+        $usuario_id = (int)($_GET['id'] ?? 0);
+        $novo_nivel = trim($_GET['nivel'] ?? '');
+
+        if ($usuario_id === (int)$_SESSION['usuario_id']) {
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?erro=auto_rebaixamento");
+            exit();
+        }
+
+        require_once __DIR__ . '/../app/models/usuario.php';
+        $usuarioModel = new Usuario($pdo);
+        $alterou = $usuarioModel->alterarNivelAcesso($usuario_id, $novo_nivel);
+
+        if ($alterou) {
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?status=permissao_alterada");
+        } else {
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?status=erro_permissao");
+        }
+        exit();
+        break;
+
+    case 'alterar_status_usuario':
+        require_once __DIR__ . '/../app/controllers/authController.php';
+        $usuarioController = new authController($pdo);
+        $alterouStatus = $usuarioController->alterar_status();
+        break;   
+
 
     default:
         echo "<h1>Acesso negado ou rota não encontrada.</h1>";

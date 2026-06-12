@@ -21,6 +21,12 @@
             <h1>Pharmatech</h1>
             <p>Onde cada miligrama conta</p>
 
+            <?php if (isset($_GET['erro']) && $_GET['erro'] === 'conta_inativa'): ?>
+                <div style="background-color: #f8d7da; color: #721c24; padding: 12px 15px; border-radius: 6px; margin-bottom: 20px; text-align: center; border: 1px solid #f5c6cb; font-size: 14px; font-weight: 500;">
+                    ⚠️ <strong>Acesso Negado:</strong> Sua conta foi inativada. Procure o administrador do sistema.
+                </div>
+            <?php endif; ?>
+
             <div class="input-wrapper">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="email" placeholder="E-mail" required>
@@ -39,6 +45,8 @@
                         Lembrar de mim
                     </label>
                 </div>
+
+                <a class="link-cadastro" href="http://localhost/PHARMATECH_PROJETO/Pharmatech/front/public/index.php">Efetuar Cadastro</a>
             </div>
 
             <button type="submit" class="btn">Entrar</button>

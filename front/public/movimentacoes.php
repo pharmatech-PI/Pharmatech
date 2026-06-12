@@ -45,35 +45,36 @@
                     <h1>Histórico de movimentações</h1>
                 </header>
                 <section class="cards card-movimentacao">
-    <div class="card">
-        <div class="card-flex">
-            <p>Entradas</p>
-        </div>
-        <span><?= $resumo['Entrada'] ?></span> 
-    </div>
-    <div class="card">
-        <div class="card-flex">
-            <p>Saídas</p>
-        </div>
-        <span><?= $resumo['Saída'] ?></span>
-    </div>
-    <div class="card">
-        <div class="card-flex">
-            <p>Vencimento</p>
-        </div>
-        <span><?= $resumo['Vencimento'] ?></span>
-    </div>
-</section>
+                    <div class="card">
+                        <div class="card-flex">
+                            <p>Entradas</p>
+                        </div>
+                        <span><?= $resumo['Entrada'] ?></span> 
+                    </div>
+                    <div class="card">
+                        <div class="card-flex">
+                            <p>Saídas</p>
+                        </div>
+                        <span><?= $resumo['Saída'] ?></span>
+                    </div>
+                    <div class="card">
+                        <div class="card-flex">
+                            <p>Vencimento</p>
+                        </div>
+                        <span><?= $resumo['Vencimento'] ?></span>
+                    </div>
+                </section>
+
                 <section class="produtos">
                     <div class="produtos-container">
                         <div class="table-header">
                             <div class="input-search">
                             <img src="assets/icons/search.svg" alt="buscar">
-                            <input type="text" placeholder="Buscar Produtos ou Lote...">
+                            <input type="text" id="busca-movimentacao" placeholder="Buscar Produtos ou Lote...">
                         </div>
                         </div>
         
-                        <table>
+                        <table class="table-movimentacao">
                             <thead>
                                 <tr>
                                     <th>ID</th>

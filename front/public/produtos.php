@@ -54,11 +54,11 @@
                     <div class="table-header">
                         <div class="input-search">
                             <img src="assets/icons/search.svg" alt="buscar">
-                            <input type="text" placeholder="Buscar Produtos ou SKU...">
+                            <input type="text" id="busca-produto" placeholder="Buscar Produtos ou SKU...">
                         </div>
                     </div>
 
-                    <table>
+                    <table class="produto-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -99,6 +99,9 @@
                                         
                                         <td>
                                             <div style="display: flex; aling-items: center; gap: 5px;">
+
+
+                                                <?php if (isset($_SESSION['nivel_acesso']) && $_SESSION['nivel_acesso'] === 'admin'): ?>
                                                <img src="./assets/icons/pencil.svg" alt="icone de lapis" style="cursor: pointer;" 
                                                     class="btn-editar-produto"
                                                     data-id="<?= htmlspecialchars($produto['id']) ?>"
@@ -112,6 +115,9 @@
                                                 <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_produto&id=<?= $produto['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir o produto <?= htmlspecialchars($produto['nome']) ?>?');">
                                                     <img src="./assets/icons/lixeira.svg" style="width: 20px; height: 20px;" alt="icone de lixeira" style="cursor: pointer;">
                                                 </a>   
+                                                <?php else: ?>
+                                                    <span style="color: #999; font-size: 12px; font-style: italic;">Sem permissão</span>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     </tr>    

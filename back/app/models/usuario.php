@@ -38,6 +38,38 @@ class Usuario {
     } catch (Exception $e) {
         die("Erro detectado no Model de Usuário: " . $e->getMessage());
     }
-}
+    }
+
+
+    public function listarTodos() {
+        $sql = "SELECT id, nome_completo, email, telefone, nivel_acesso, status FROM usuario ORDER BY id ASC";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function atualizarPermissoes($id, $nivel_acesso, $status) {
+        try {
+            $sql = "UPDATE usuario SET nivel_acesso = ?, status = ? WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([$nivel_acesso, $status, $id]);
+        } catch (Exception $e) {
+            die("Erro ao atualizar permissões: " . $e->getMessage());
+        }
+    }
+
+    public function alterarNivelAcesso($id, $novo_nivel) {
+        try {
+            if (!in_array($novo_nivel, ['admin', 'comum'])) {
+                return false;
+            }
+
+            $sql = "UPDATE usuario SET nivel_acesso = ? WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([$novo_nivel, $id]);
+        } catch (Exception $e) {
+            die("Erro ao alterar permissão: " . $e->getMessage());
+        }
+    }
 }
 ?>

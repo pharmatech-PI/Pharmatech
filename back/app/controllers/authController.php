@@ -52,10 +52,17 @@ class AuthController {
             $usuario = $usuarioModel->buscarPorEmail($email);
 
             if ($usuario && password_verify($senha, $usuario['senha_hash'])) {
-                
+                 
+            if (isset($usuario['status']) && $usuario['status'] === 'Inativo') {
+                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/login.php?erro=conta_inativa");
+                exit; 
+            }
+       
                 session_start();
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_nome'] = $usuario['nome_completo'];
+
+                $_SESSION['nivel_acesso'] = $usuario['nivel_acesso'];
 
                 if (isset($_POST['lembrar'])) {
                     $token = bin2hex(random_bytes(32));
@@ -72,6 +79,57 @@ class AuthController {
                 echo "<h2>Erro: E-mail ou senha incorretos.</h2>";
                 echo "<a href='/PHARMATECH_PROJETO/Pharmatech/front/public/login.php'>Voltar</a>";
             }
+        }
+    }
+
+
+    public function alterar_status() {
+        if (session_status() === PHP_SESSION_NONE) { session_start(); }
+        
+        if (!isset($_SESSION['nivel_acesso']) || $_SESSION['nivel_acesso'] !== 'admin') {
+            die("Acesso negado.");
+        }
+
+        if (isset($_GET['id']) && isset($_GET['status'])) {
+            $id_alvo = (int) $_GET['id'];
+            $novo_status = $_GET['status']; 
+
+            if ($id_alvo === $_SESSION['usuario_id'] && $novo_status === 'Inativo') {
+                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?erro=auto_rebaixamento");
+                exit();
+            }
+
+            $sql = "UPDATE usuario SET status = ? WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$novo_status, $id_alvo]);
+
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?status=permissao_alterada");
+            exit();
+        }
+    }
+
+    public function alterar_permissao() {
+        if (session_status() === PHP_SESSION_NONE) { session_start(); }
+        
+        if (!isset($_SESSION['nivel_acesso']) || $_SESSION['nivel_acesso'] !== 'admin') {
+            die("Acesso negado.");
+        }
+
+        if (isset($_GET['id']) && isset($_GET['nivel'])) {
+            $id_alvo = (int) $_GET['id'];
+            $novo_nivel = $_GET['nivel']; 
+
+            if ($id_alvo === $_SESSION['usuario_id'] && $novo_nivel === 'comum') {
+                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/perfil.php?erro=auto_rebaixamento");
+                exit();
+            }
+
+            $sql = "UPDATE usuario SET nivel_acesso = ? WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$novo_nivel, $id_alvo]);
+
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/perfil.php?status=permissao_alterada");
+            exit();
         }
     }
 
