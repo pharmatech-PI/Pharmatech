@@ -147,3 +147,25 @@
     }
   }
 }
+
+alert {
+  margin: 20px 40px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-family: var(--font-poppins);
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #e8f8ee;
+  color: #198754;
+  border: 1px solid #b7e4c7;
+  font-family: var(--font-poppins);
+}
+
+.alert-error {
+  background-color: #fdeaea;
+  color: #dc3545;
+  border: 1px solid #f5c2c7;
+  font-family: var(--font-poppins);
+}

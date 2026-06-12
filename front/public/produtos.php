@@ -49,6 +49,37 @@
                     <span class="fornecedor-title">Produtos</span>
                     <button class="btn" data-modal="abrir">+ Novo Produto</button>
                 </div>
+
+            <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == '1'): ?>
+                <div id="alert-message" class="alert alert-success">
+                    Produto cadastrado com sucesso!
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['erro']) && $_GET['erro'] == 'sku_duplicado'): ?>
+                <div class="alert alert-error">
+                    Já existe um produto cadastrado com este SKU.
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['erro']) && $_GET['erro'] == 'falha_cadastro'): ?>
+                <div class="alert alert-error">
+                    Ocorreu um erro ao cadastrar o produto.
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['status']) && $_GET['status'] == 'editado'): ?>
+                <div class="alert alert-success">
+                    Produto atualizado com sucesso!
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['status']) && $_GET['status'] == 'inativado'): ?>
+                <div class="alert alert-success">
+                    Produto inativado com sucesso!
+                </div>
+            <?php endif; ?>
+
                 <section class="produtos">
                  <div class="produtos-container">
                     <div class="table-header">
