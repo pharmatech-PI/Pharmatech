@@ -155,23 +155,23 @@
         <div class="input-modal">
             <div class="input-wrapper">
                 <label for="name">Razão Social</label>
-                <input type="text" name="razao_social" for="name" id="name" placeholder="Ex: Pharma Brasil Ltda"/>
+                <input type="text" name="razao_social" for="name" id="name" placeholder="Ex: Pharma Brasil Ltda" required/>
             </div>
             <div class="input-wrapper">
                 <label for="fantasia">Nome Fantasia</label>
-                <input  name="nome_fantasia" type="text" for="fantasia" id="fantasia" placeholder="Ex: PharmaBR"/>
+                <input  name="nome_fantasia" type="text" for="fantasia" id="fantasia" placeholder="Ex: PharmaBR" required/>
             </div>
                <div class="input-wrapper">
                 <label for="cnpj">CNPJ</label>
-                <input name="cnpj" type="text" for="cnpj" id="cnpj" placeholder="00.000.000/00000"/>
+                <input name="cnpj" type="text" for="cnpj" id="cnpj" placeholder="00.000.000/00000" required/>
             </div>
                <div class="input-wrapper">
                 <label for="polo">Polo</label>
-                <input name="polo" type="text" for="polo" id="polo" placeholder="Selecione"/>
+                <input name="polo" type="text" for="polo" id="polo" placeholder="Selecione" required/>
             </div>
             <div class="input-wrapper">
                 <label for="localidade">localidade</label>
-                <input name="localidade" type="text" for="localidade" id="localidade" placeholder="Ex: São Paulo - SP"/>
+                <input name="localidade" type="text" for="localidade" id="localidade" placeholder="Ex: São Paulo - SP" required/>
             </div>
 
             <div class="input-wrapper">
