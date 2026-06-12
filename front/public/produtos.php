@@ -169,10 +169,10 @@
         <input type="text" name="status" id="status" placeholder="Ativo" value="Ativo"/>
     </div>
 
-    <div class="input-wrapper" style="grid-column: span 2;">
+    <div class="input-wrapper input-modal-fornecedor">
         <label for="fornecedores">Fornecedores do Produto (Segure CTRL para marcar vários)</label>
         
-        <select name="fornecedores[]" id="fornecedores" multiple style="height: 100px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;" required>
+        <select name="fornecedores[]" id="fornecedores" multiple required>
             
             <?php foreach ($listaFornecedores as $f): ?>
                 <option value="<?= htmlspecialchars($f['id']) ?>">
@@ -232,9 +232,9 @@
                         <input type="text" name="status" id="edit_status" required/>
                     </div>
 
-                    <div class="input-wrapper" style="grid-column: span 2;">
+                    <div class="input-wrapper input-modal-fornecedor">
                         <label for="edit_fornecedores">Fornecedores (Segure CTRL para marcar vários)</label>
-                        <select name="fornecedores[]" id="edit_fornecedores" multiple style="height: 100px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;" required>
+                        <select name="fornecedores[]" id="edit_fornecedores" multiple required>
                             <?php foreach ($listaFornecedores as $f): ?>
                                 <option value="<?= htmlspecialchars($f['id']) ?>">
                                     <?= htmlspecialchars($f['nome_fantasia']) ?> (<?= htmlspecialchars($f['cnpj']) ?>)
