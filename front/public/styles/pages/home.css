@@ -79,6 +79,7 @@
       border-radius: 8px;
       max-width: 1400px;
       width: 100%;
+      min-height: calc(100vh - 250px);
       box-shadow: 0 2px 3px 0
         color-mix(in srgb, var(--primary-color), transparent 80%);
 
@@ -148,7 +149,7 @@
   }
 }
 
-alert {
+.alert {
   margin: 20px 40px;
   padding: 14px 18px;
   border-radius: 8px;
@@ -164,6 +165,13 @@ alert {
 }
 
 .alert-error {
+  background-color: #fdeaea;
+  color: #dc3545;
+  border: 1px solid #f5c2c7;
+  font-family: var(--font-poppins);
+}
+
+.alert-inativo {
   background-color: #fdeaea;
   color: #dc3545;
   border: 1px solid #f5c2c7;

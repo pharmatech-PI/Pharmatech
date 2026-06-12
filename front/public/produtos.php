@@ -14,7 +14,7 @@
         $pagina_atual = 1;
     }
 
-    $itens_por_pagina = 2; 
+    $itens_por_pagina = 10; 
 
 
     $offset = ($pagina_atual - 1) * $itens_por_pagina;
@@ -75,7 +75,7 @@
             <?php endif; ?>
 
             <?php if (isset($_GET['status']) && $_GET['status'] == 'inativado'): ?>
-                <div class="alert alert-success">
+                <div class="alert alert-inativo">
                     Produto inativado com sucesso!
                 </div>
             <?php endif; ?>
@@ -143,8 +143,8 @@
                                                     data-status="<?= htmlspecialchars($produto['status']) ?>"
                                                     data-categoria="<?= htmlspecialchars($produto['categoria_id']) ?>">         
 
-                                                <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_produto&id=<?= $produto['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir o produto <?= htmlspecialchars($produto['nome']) ?>?');">
-                                                    <img src="./assets/icons/lixeira.svg" style="width: 20px; height: 20px;" alt="icone de lixeira" style="cursor: pointer;">
+                                                <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_produto&id=<?= $produto['id'] ?>" onclick="return confirm('Tem certeza que deseja inativar o produto <?= htmlspecialchars($produto['nome']) ?>?');">
+                                                    <img src="./assets/icons/power.svg" style="width: 26px; height: 26px;" alt="icone de power" style="cursor: pointer;">
                                                 </a>   
                                                 <?php else: ?>
                                                     <span style="color: #999; font-size: 12px; font-style: italic;">Sem permissão</span>

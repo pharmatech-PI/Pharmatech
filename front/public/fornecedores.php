@@ -102,7 +102,7 @@
                                                         data-localidade="<?= htmlspecialchars($f['localidade']) ?>">        
 
                                                         <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_fornecedor&id=<?= $f['id'] ?>" onclick="return confirm('Tem certeza que deseja inativar este fornecedor?');">
-                                                            <img src="./assets/icons/lixeira.svg" style="width: 20px; height: 20px;" alt="Inativar">
+                                                            <img src="./assets/icons/power.svg" style="width: 26px; height: 26px;" alt="Inativar">
                                                         </a> 
                                                     <?php else: ?>
                                                         <span style="color: #999; font-size: 12px; font-style: italic;">Sem permissão</span>
