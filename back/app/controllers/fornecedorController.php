@@ -17,6 +17,8 @@ class FornecedorController {
             $cnpj        = trim($_POST['cnpj'] ?? '');
             $localidade  = trim($_POST['localidade'] ?? '');
 
+            $status = $_POST['status'] ?? 'Ativo';
+
             if (empty($polo) || empty($razaoSocial) || empty($cnpj) || empty($localidade)) {
                 die("Erro: Preencha todos os campos obrigatórios.");
             }
@@ -55,7 +57,7 @@ class FornecedorController {
             $nomeFantasia = trim($_POST['nome_fantasia'] ?? '');
             $cnpj         = trim($_POST['cnpj'] ?? '');
             $localidade   = trim($_POST['localidade'] ?? '');
-
+            $status         = trim($_POST['status'] ?? 'Ativo');
             if ($id === 0 || empty($nomeFantasia) || empty($cnpj)) {
                 die("Erro: Dados obrigatórios não preenchidos.");
             }
@@ -63,7 +65,7 @@ class FornecedorController {
             require_once __DIR__ . '/../models/fornecedor.php';
             $fornecedorModel = new Fornecedor($this->pdo);
             
-            $atualizou = $fornecedorModel->atualizar($id, $polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade);
+            $atualizou = $fornecedorModel->atualizar($id, $polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade, $status);
 
             if ($atualizou) {
                 header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/fornecedores.php?status=editado");

@@ -84,6 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("edit_forn_localidade").value =
           botao.getAttribute("data-localidade");
 
+        document.getElementById("edit_forn_status").value = 
+          botao.getAttribute("data-status");
+
         modalEditarForn.style.display = "flex";
       });
     });

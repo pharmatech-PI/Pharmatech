@@ -99,7 +99,9 @@
                                                         data-razao="<?= htmlspecialchars($f['razao_social']) ?>"
                                                         data-fantasia="<?= htmlspecialchars($f['nome_fantasia']) ?>"
                                                         data-cnpj="<?= htmlspecialchars($f['cnpj']) ?>"
-                                                        data-localidade="<?= htmlspecialchars($f['localidade']) ?>">        
+                                                        data-localidade="<?= htmlspecialchars($f['localidade']) ?>"
+                                                        data-status="<?= htmlspecialchars(ucfirst(strtolower($f['status'] ?? 'Ativo'))) ?>">
+                                                        >        
 
                                                         <a href="/PHARMATECH_PROJETO/Pharmatech/back/public/index.php?acao=excluir_fornecedor&id=<?= $f['id'] ?>" onclick="return confirm('Tem certeza que deseja inativar este fornecedor?');">
                                                             <img src="./assets/icons/power.svg" style="width: 26px; height: 26px;" alt="Inativar">
@@ -192,9 +194,15 @@
                 <label for="edit_forn_polo">Polo</label>
                 <input type="text" name="polo" id="edit_forn_polo"/>
             </div>
+
             <div class="input-wrapper">
                 <label for="edit_forn_localidade">Localidade</label>
                 <input type="text" name="localidade" id="edit_forn_localidade"/>
+            </div>
+            
+             <div class="input-wrapper">
+                <label for="edit_forn_status">Status</label>
+                <input type="text" name="status" id="edit_forn_status"/>
             </div>
         </div>
         
