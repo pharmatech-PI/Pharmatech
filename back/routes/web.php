@@ -61,7 +61,7 @@ switch ($acao) {
 
     case 'atualizar_fornecedor':
         $fornecedorController = new FornecedorController($pdo);
-        $fornecedorController->atualizar_fornecedor(); // Este método criamos no seu FornecedorController
+        $fornecedorController->atualizar_fornecedor(); 
         break;
 
     case 'buscar_fornecedores_ajax':

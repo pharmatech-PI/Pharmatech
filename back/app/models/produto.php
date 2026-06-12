@@ -56,14 +56,16 @@ class Produto {
         }
     }
 
-    public function contarTotal() {
-        $sql = "SELECT COUNT(*) as total FROM produto"; 
-        $stmt = $this->pdo->query($sql);
+    public function contarTotal($busca = '') {
+        $sql = "SELECT COUNT(*) as total FROM produto WHERE nome LIKE :busca OR sku LIKE :busca";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':busca', "%$busca%");
+        $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return (int) $resultado['total'];
     }
 
-    public function listarPaginado($limite, $offset) {
+    public function listarPaginado($limite, $offset, $busca = '') {
         try {
             $limite_seguro = (int) $limite;
             $offset_seguro = (int) $offset;
@@ -71,11 +73,14 @@ class Produto {
             $sql = "SELECT produto.*, categoria.nome AS categoria_nome 
                     FROM produto 
                     LEFT JOIN categoria ON produto.categoria_id = categoria.id 
+                    WHERE produto.nome LIKE :busca OR produto.sku LIKE :busca 
                     ORDER BY produto.id ASC 
                     LIMIT {$limite_seguro} OFFSET {$offset_seguro}";
 
-            $stmt = $this->pdo->query($sql);
-            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':busca', "%$busca%");
+            $stmt->execute();
+
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (Exception $e) {
@@ -83,11 +88,12 @@ class Produto {
         }
     }
 
-    public function listar() {
+    public function listarAtivos() {
         $sql = "SELECT produto.*, categoria.nome AS categoria_nome 
                 FROM produto 
                 INNER JOIN categoria ON produto.categoria_id = categoria.id 
-                ORDER BY produto.id ASC";
+                WHERE produto.status = 'Ativo' 
+                ORDER BY produto.nome ASC"; 
 
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

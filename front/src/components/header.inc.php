@@ -68,6 +68,19 @@ if (session_status() === PHP_SESSION_NONE) {
                                     echo 'desativou o produto <br>';
                                     echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
                                 }
+
+
+                                elseif ($noti['acao'] === 'edicao_fornecedor') {
+                                    echo 'editou o fornecedor <br>';
+                                    echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
+                                } 
+                            
+                                elseif ($noti['acao'] === 'inativacao_fornecedor') {
+                                    echo 'inativou o fornecedor <br>';
+                                    echo '<b>' . htmlspecialchars($noti['produto_nome']) . '</b>';
+                                }
+
+                                
                                 ?>
                                 
                                 <span class="noti-time">

@@ -5,6 +5,7 @@
 
     $movimentacaoModel = new Movimentacao($pdo);
 
+    $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
     
     $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
     if ($pagina_atual < 1) {
@@ -15,11 +16,11 @@
 
     $offset = ($pagina_atual - 1) * $itens_por_pagina;
 
-    $total_itens = $movimentacaoModel->contarTotal();
+    $total_itens = $movimentacaoModel->contarTotal($busca);
 
     $total_paginas = ceil($total_itens / $itens_por_pagina);
 
-    $listaMovimentacoes = $movimentacaoModel->listarPaginado($itens_por_pagina, $offset);
+    $listaMovimentacoes = $movimentacaoModel->listarPaginado($itens_por_pagina, $offset, $busca);
 
     $resumo = $movimentacaoModel->obterResumo();
 ?>
@@ -67,88 +68,112 @@
 
                 <section class="produtos">
                     <div class="produtos-container">
-                        <div class="table-header">
-                            <div class="input-search">
-                            <img src="assets/icons/search.svg" alt="buscar">
-                            <input type="text" id="busca-movimentacao" placeholder="Buscar Produtos ou Lote...">
-                        </div>
-                        </div>
+                            <form class="search-form" action="" method="GET">
+                                <div class="input-search" style="margin-bottom: 0; flex-grow: 1;">
+                                    <img src="assets/icons/search.svg" alt="buscar">
+                                    <input type="text" name="busca" placeholder="Buscar Produto ou Lote..." value="<?= htmlspecialchars($busca) ?>">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-buscar">Buscar</button>
+                                
+                                <?php if (!empty($busca)): ?>
+                                    <a href="?" class="btn-picture" style="text-decoration: none; padding: 10px 20px; display: flex; align-items: center;">Limpar</a>
+                                <?php endif; ?>
+                            </form>
+
+                            <table class="table-movimentacao">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Data</th>
+                                        <th>Tipo</th>
+                                        <th>Produto</th>
+                                        <th>Lote</th>
+                                        <th>Validade</th>
+                                        <th>Qtd.</th>
+                                        <th>antes</th>
+                                        <th>depois</th>
+                                    </tr>
+                                </thead>
         
-                        <table class="table-movimentacao">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Data</th>
-                                    <th>Tipo</th>
-                                    <th>Produto</th>
-                                    <th>Lote</th>
-                                    <th>Validade</th>
-                                    <th>Qtd.</th>
-                                    <th>antes</th>
-                                    <th>depois</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-    <?php if (empty($listaMovimentacoes)): ?>
-        <tr>
-            <td colspan="10" style="text-align: center;">Nenhuma movimentação registrada.</td>
-        </tr>
-    <?php else: ?>
-        <?php foreach ($listaMovimentacoes as $mov): ?>
+                                <tbody>
+        <?php if (empty($listaMovimentacoes)): ?>
             <tr>
-                <td><?= htmlspecialchars($mov['id']) ?></td>
-                
-                <td><?= date('d/m/Y', strtotime($mov['data'])) ?></td>
-                
-                <td>
-                    <?php if (strtolower($mov['tipo']) === 'entrada'): ?>
-                        <span class="status-badge green"><?= htmlspecialchars($mov['tipo']) ?></span>
-                    <?php else: ?>
-                        <span class="status-badge yellow"><?= htmlspecialchars($mov['tipo']) ?></span>
-                    <?php endif; ?>
-                </td>
-                
-                <td><?= htmlspecialchars($mov['produto_nome']) ?></td>         
-                
-                <td><?= htmlspecialchars($mov['lote']) ?></td>  
-
-                <td>
-                    <?php 
-                    if (!empty($mov['validade']) && $mov['validade'] !== '0000-00-00') {
-                        
-                        $hoje = strtotime(date('Y-m-d'));
-                        $dataValidade = strtotime($mov['validade']);
-                        $limite30Dias = strtotime('+30 days');
-
-                        $dataFormatada = date('d/m/Y', $dataValidade);
-
-                        if ($dataValidade < $hoje) {
-                            echo "<span style='color: #dc3545; font-weight: 700;'>{$dataFormatada} 🔴</span>";
-                        } elseif ($dataValidade <= $limite30Dias) {
-                            echo "<span style='color: #fd7e14; font-weight: 700;'>{$dataFormatada} 🟠</span>";
-                        } else {
-                            echo "<span>{$dataFormatada}</span>";
-                        }
-
-                    } else {
-                        echo "-"; 
-                    }
-                    ?>
-                </td>
-
-                <td><?= htmlspecialchars($mov['quantidade']) ?></td>
-                <td><?= htmlspecialchars($mov['qtd_antes']) ?></td>
-                <td><?= htmlspecialchars($mov['qtd_depois']) ?></td>
-                
+                <td colspan="10" style="text-align: center;">Nenhuma movimentação registrada.</td>
             </tr>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</tbody>
+        <?php else: ?>
+            <?php foreach ($listaMovimentacoes as $mov): ?>
+                <tr>
+                    <td><?= htmlspecialchars($mov['id']) ?></td>
+                    
+                    <td><?= date('d/m/Y', strtotime($mov['data'])) ?></td>
+                    
+                    <td>
+                        <?php if (strtolower($mov['tipo']) === 'entrada'): ?>
+                            <span class="status-badge green"><?= htmlspecialchars($mov['tipo']) ?></span>
+                        <?php else: ?>
+                            <span class="status-badge yellow"><?= htmlspecialchars($mov['tipo']) ?></span>
+                        <?php endif; ?>
+                    </td>
+                    
+                    <td><?= htmlspecialchars($mov['produto_nome']) ?></td>         
+                    
+                    <td><?= htmlspecialchars($mov['lote']) ?></td>  
+        
+                    <td>
+                        <?php 
+                        if (!empty($mov['validade']) && $mov['validade'] !== '0000-00-00') {
                             
-                        </table>
-                        <?php include_once __DIR__ . "/../src/components/pagination.inc.php"; ?>
+                            $hoje = strtotime(date('Y-m-d'));
+                            $dataValidade = strtotime($mov['validade']);
+                            
+                            $limite20Dias = strtotime('+20 days');
+                            $limite90Dias = strtotime('+90 days');
+        
+                            $dataFormatada = date('d/m/Y', $dataValidade);
+        
+                            if ($dataValidade <= $limite20Dias) {
+                                echo "<span style='color: #dc3545; font-weight: 700;'>{$dataFormatada} 🔴</span>";
+                            } 
+        
+                            elseif ($dataValidade <= $limite90Dias) {
+                                echo "<span style='color: #f5bd17; font-weight: 700;'>{$dataFormatada} 🟡</span>";
+                            } 
+        
+                            else {
+                                echo "<span>{$dataFormatada}</span>";
+                            }
+        
+                        } else {
+                            echo "-"; 
+                        }
+                        ?>
+                    
+                    </td>
+        
+                    <td><?= htmlspecialchars($mov['quantidade']) ?></td>
+                    <td><?= htmlspecialchars($mov['qtd_antes']) ?></td>
+                    <td><?= htmlspecialchars($mov['qtd_depois']) ?></td>
+                    
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </tbody>
+                                
+                            </table>
+                            <?php include_once __DIR__ . "/../src/components/pagination.inc.php"; ?>
+                        </div>
+
+
+
+
+
+
+
+
+
                     </div>
+        
                 </section>
             </main>
         </div>

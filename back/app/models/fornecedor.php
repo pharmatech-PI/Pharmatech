@@ -93,7 +93,7 @@ class Fornecedor {
         }
     }
 
-    public function atualizar($id, $polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade) {
+    public function atualizar($id, $polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade, $status) {
         try {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
@@ -104,10 +104,10 @@ class Fornecedor {
 
             $stmt = $this->pdo->prepare("
                 UPDATE fornecedor 
-                SET polo = ?, razao_social = ?, nome_fantasia = ?, cnpj = ?, localidade = ? 
+                SET polo = ?, razao_social = ?, nome_fantasia = ?, cnpj = ?, localidade = ?, status = ?
                 WHERE id = ?
             ");
-            $stmt->execute([$polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade, $id]);
+            $stmt->execute([$polo, $razaoSocial, $nomeFantasia, $cnpj, $localidade, $status, $id]);
 
             $stmtHist = $this->pdo->prepare("
                 INSERT INTO historico_movimentacao (usuario_nome, acao, produto_nome, quantidade) 
@@ -170,9 +170,9 @@ class Fornecedor {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public function listar() {
-        $stmt = $this->pdo->query("SELECT * FROM fornecedor ORDER BY id ASC");
+    public function listarAtivos() {
+        $sql = "SELECT * FROM fornecedor WHERE status = 'Ativo' ORDER BY nome_fantasia ASC";
+        $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

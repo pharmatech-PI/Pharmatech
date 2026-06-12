@@ -2,11 +2,10 @@
     require_once __DIR__ . '/../../back/config/trava.php'; 
     require_once __DIR__ . '/../../back/config/config.php';
     
-    // Trazendo apenas o Model de Produto (não precisamos de Fornecedor aqui)
     require_once __DIR__ . '/../../back/app/models/produto.php';
 
     $produtoModel = new Produto($pdo);
-    $listaProdutos = $produtoModel->listar();
+    $listaProdutos = $produtoModel->listarAtivos();
 ?>
 
 <!DOCTYPE html>

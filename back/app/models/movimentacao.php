@@ -133,15 +133,17 @@ class Movimentacao {
     }
 
 
-     public function contarTotal() {
-        $sql = "SELECT COUNT(*) as total FROM movimentacao"; 
-        $stmt = $this->pdo->query($sql);
+     public function contarTotal($busca = '') {
+        $sql = "SELECT COUNT(*) as total FROM movimentacao m INNER JOIN produto p ON m.produto_id = p.id WHERE p.nome LIKE :busca OR m.lote LIKE :busca";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':busca', "%$busca%");
+        $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return (int) $resultado['total'];
     }
 
 
-    public function listarPaginado($limite, $offset) {
+    public function listarPaginado($limite, $offset, $busca = '') {
         try {
             $limite_seguro = (int) $limite;
             $offset_seguro = (int) $offset;
@@ -149,10 +151,13 @@ class Movimentacao {
             $sql = "SELECT m.*, p.nome AS produto_nome 
                 FROM movimentacao m 
                 INNER JOIN produto p ON m.produto_id = p.id 
+                WHERE p.nome LIKE :busca OR m.lote LIKE :busca 
                 ORDER BY m.id DESC LIMIT {$limite_seguro} OFFSET {$offset_seguro}";
 
-            $stmt = $this->pdo->query($sql);
-            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':busca', "%$busca%");
+            $stmt->execute();
+
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (Exception $e) {

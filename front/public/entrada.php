@@ -6,7 +6,7 @@
     require_once __DIR__ . '/../../back/app/models/fornecedor.php';
 
     $produtoModel = new Produto($pdo);
-    $listaProdutos = $produtoModel->listar();
+    $listaProdutos = $produtoModel->listarAtivos();
 
     // DICA: Não precisamos mais listar todos os fornecedores aqui no topo!
     // O JavaScript vai buscar apenas os fornecedores certos direto no banco.
