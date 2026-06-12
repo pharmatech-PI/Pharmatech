@@ -336,6 +336,15 @@
             background-color: #fff8e1;
             color: #b45309;
         }
+
+        .badge.super-admin {
+            background-color: #ffda6c; color: #212529; font-weight: 700; border: 1px solid #e0a800;
+        }
+
+        .badge.super-admin::before {
+            background-color: #e0a800;
+        }
+
         .badge-common::before { background-color: #f59e0b; }
 
         .badge-active {

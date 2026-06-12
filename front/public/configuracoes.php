@@ -172,7 +172,9 @@
                                                 <td><?= htmlspecialchars($user['email']) ?></td>
 
                                                 <td>
-                                                    <?php if ($isAdmin): ?>
+                                                    <?php if ($user['id'] == 36): ?>
+                                                        <span class="badge super-admin">Super Admin</span>
+                                                    <?php elseif ($isAdmin): ?>
                                                         <span class="badge badge-admin">Admin</span>
                                                     <?php else: ?>
                                                         <span class="badge badge-common">Comum</span>
