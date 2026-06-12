@@ -82,7 +82,7 @@
                                             <td><?= htmlspecialchars($f['localidade']) ?></td>
 
                                             <td>
-                                                <?php if (strtolower($f['status']) === 'ativo'): ?>
+                                                <?php if (trim(strtolower($f['status'])) === 'ativo'): ?>
                                                     <span class="status-badge green">Ativo</span>
                                                 <?php else: ?>
                                                     <span class="status-badge red">Inativo</span>
