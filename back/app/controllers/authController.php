@@ -117,10 +117,15 @@ class AuthController {
 
         if (isset($_GET['id']) && isset($_GET['nivel'])) {
             $id_alvo = (int) $_GET['id'];
+
+            if ($id_alvo === 36) {
+                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?erro=super_admin_protegido");
+                exit();
+            }
             $novo_nivel = $_GET['nivel']; 
 
             if ($id_alvo === $_SESSION['usuario_id'] && $novo_nivel === 'comum') {
-                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/perfil.php?erro=auto_rebaixamento");
+                header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?erro=auto_rebaixamento");
                 exit();
             }
 
@@ -128,7 +133,7 @@ class AuthController {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$novo_nivel, $id_alvo]);
 
-            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/perfil.php?status=permissao_alterada");
+            header("Location: /PHARMATECH_PROJETO/Pharmatech/front/public/configuracoes.php?status=permissao_alterada");
             exit();
         }
     }

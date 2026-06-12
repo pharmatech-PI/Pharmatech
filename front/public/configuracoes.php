@@ -124,6 +124,10 @@
                         <div class="alert alert-danger">Você não pode alterar suas próprias permissões de acesso ou inativar sua conta.</div>
                     <?php endif; ?>
 
+                      <?php if (isset($_GET['erro']) && $_GET['erro'] === 'super_admin_protegido'): ?>
+                        <div class="alert alert-danger">Erro: O perfil do Administrador Principal não pode ser alterado ou inativado!</div>
+                    <?php endif; ?>
+
                     <section class="card-section team-section">
                         <header class="personal-information">
                             <div class="information-group">
@@ -185,37 +189,42 @@
 
                                                 <td>
                                                     <div class="actions-cell">
-
-                                                        <!-- Promoção / Rebaixamento -->
+    
+                                                    <?php if ($user['id'] == 36): ?>
+                                                        <span style="font-size: 13px; color: #6c757d; font-style: italic; font-weight: 600;">Não pode ser modificado</span>
+                                                    <?php else: ?>
+                                                        
                                                         <?php if ($isAdmin): ?>
                                                             <a href="<?= $baseUrl ?>?acao=alterar_permissao_usuario&id=<?= $user['id'] ?>&nivel=comum"
-                                                               class="action-btn action-btn-demote"
-                                                               onclick="return confirm('Deseja retirar os poderes de Admin deste funcionário?');">
+                                                            class="action-btn action-btn-demote"
+                                                            onclick="return confirm('Deseja retirar os poderes de Admin deste funcionário?');">
                                                                 Retirar Admin
                                                             </a>
                                                         <?php else: ?>
                                                             <a href="<?= $baseUrl ?>?acao=alterar_permissao_usuario&id=<?= $user['id'] ?>&nivel=admin"
-                                                               class="action-btn action-btn-promote"
-                                                               onclick="return confirm('Promover este funcionário a Administrador?');">
+                                                            class="action-btn action-btn-promote"
+                                                            onclick="return confirm('Promover este funcionário a Administrador?');">
                                                                 Dar Admin
                                                             </a>
                                                         <?php endif; ?>
 
                                                         <?php if ($isInativo): ?>
                                                             <a href="<?= $baseUrl ?>?acao=alterar_status_usuario&id=<?= $user['id'] ?>&status=Ativo"
-                                                               class="action-btn action-btn-activate"
-                                                               onclick="return confirm('Deseja liberar o acesso deste funcionário novamente?');">
+                                                            class="action-btn action-btn-activate"
+                                                            onclick="return confirm('Deseja liberar o acesso deste funcionário novamente?');">
                                                                 Ativar
                                                             </a>
                                                         <?php elseif (!$isSelf): ?>
                                                             <a href="<?= $baseUrl ?>?acao=alterar_status_usuario&id=<?= $user['id'] ?>&status=Inativo"
-                                                               class="action-btn action-btn-deactivate"
-                                                               onclick="return confirm('Inativar este usuário? Ele perderá acesso ao sistema.');">
+                                                            class="action-btn action-btn-deactivate"
+                                                            onclick="return confirm('Inativar este usuário? Ele perderá acesso ao sistema.');">
                                                                 Inativar
                                                             </a>
                                                         <?php endif; ?>
 
-                                                    </div>
+                                                    <?php endif; ?>
+
+                                                </div>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

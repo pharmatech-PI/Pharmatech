@@ -3,23 +3,21 @@
     require_once __DIR__ . '/../../back/config/config.php';
     require_once __DIR__ . '/../../back/app/models/fornecedor.php';
 
-
     $fornecedorModel = new Fornecedor($pdo);
 
     $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
     if ($pagina_atual < 1) {
         $pagina_atual = 1;
     }
+    
+    $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
 
     $itens_por_pagina = 10; 
-
     $offset = ($pagina_atual - 1) * $itens_por_pagina;
 
-    $total_itens = $fornecedorModel->contarTotal();
-
+    $total_itens = $fornecedorModel->contarTotal($busca);
     $total_paginas = ceil($total_itens / $itens_por_pagina);
-
-    $fornecedores = $fornecedorModel->listarPaginado($itens_por_pagina, $offset);
+    $fornecedores = $fornecedorModel->listarPaginado($itens_por_pagina, $offset, $busca);
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +41,17 @@
                 </div>
                 <div class="fornecedor-container-alinhamento">
                     <div class="fornecedor-container">
-                        <div class="input-search">
-                            <img src="assets/icons/search.svg" alt="buscar">
-                            <input type="text" id="busca-fornecedor" placeholder="Buscar Fornecedor ou CNPJ...">
-                        </div>
+                        <form class="search-form" action="" method="GET">
+                            <div class="input-search" style="margin-bottom: 0; flex-grow: 1;">
+                                <img src="assets/icons/search.svg" alt="buscar">
+                                <input type="text" name="busca" placeholder="Buscar Fornecedor ou CNPJ..." value="<?= htmlspecialchars($busca) ?>">
+                            </div>
+                            <button type="submit" class="btn btn-buscar">Buscar</button>
+                            
+                            <?php if (!empty($busca)): ?>
+                                <a href="?" class="btn-picture" style="text-decoration: none; padding: 10px 20px; display: flex; align-items: center;">Limpar</a>
+                            <?php endif; ?>
+                        </form>
 
                         <table class="fornecedor-table">
                             <thead>
