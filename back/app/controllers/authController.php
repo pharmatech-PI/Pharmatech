@@ -115,6 +115,10 @@ class AuthController {
             die("Acesso negado.");
         }
 
+        if ($_SESSION['usuario_id'] != 36) {
+            die("Apenas o Super Admin pode alterar permissões.");
+        }   
+
         if (isset($_GET['id']) && isset($_GET['nivel'])) {
             $id_alvo = (int) $_GET['id'];
 

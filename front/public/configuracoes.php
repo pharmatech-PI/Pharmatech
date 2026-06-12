@@ -191,42 +191,50 @@
 
                                                 <td>
                                                     <div class="actions-cell">
-    
-                                                    <?php if ($user['id'] == 36): ?>
-                                                        <span style="font-size: 13px; color: #6c757d; font-style: italic; font-weight: 600;">Não pode ser modificado</span>
-                                                    <?php else: ?>
-                                                        
-                                                        <?php if ($isAdmin): ?>
-                                                            <a href="<?= $baseUrl ?>?acao=alterar_permissao_usuario&id=<?= $user['id'] ?>&nivel=comum"
-                                                            class="action-btn action-btn-demote"
-                                                            onclick="return confirm('Deseja retirar os poderes de Admin deste funcionário?');">
-                                                                Retirar Admin
-                                                            </a>
+                                                        <?php if ($user['id'] == 36): ?>
+                                                            <span style="font-size: 13px; color: #6c757d; font-style: italic; font-weight: 600;">Não pode ser modificado</span>
+                                                            
+                                                        <?php elseif ($isSelf): ?>
+                                                            <span style="font-size: 13px; color: #17a2b8; font-style: italic; font-weight: 600;">Você</span>
+                                                            
                                                         <?php else: ?>
-                                                            <a href="<?= $baseUrl ?>?acao=alterar_permissao_usuario&id=<?= $user['id'] ?>&nivel=admin"
-                                                            class="action-btn action-btn-promote"
-                                                            onclick="return confirm('Promover este funcionário a Administrador?');">
-                                                                Dar Admin
-                                                            </a>
+                                                            <?php if ($_SESSION['usuario_id'] == 36): ?>
+                                                                <?php if ($isAdmin): ?>
+                                                                    <a href="<?= $baseUrl ?>?acao=alterar_permissao_usuario&id=<?= $user['id'] ?>&nivel=comum"
+                                                                    class="action-btn action-btn-demote"
+                                                                    onclick="return confirm('Deseja retirar os poderes de Admin deste funcionário?');">
+                                                                        Retirar Admin
+                                                                    </a>
+                                                                <?php else: ?>
+                                                                    <a href="<?= $baseUrl ?>?acao=alterar_permissao_usuario&id=<?= $user['id'] ?>&nivel=admin"
+                                                                    class="action-btn action-btn-promote"
+                                                                    onclick="return confirm('Promover este funcionário a Administrador?');">
+                                                                        Dar Admin
+                                                                    </a>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+
+                                                            <?php if ($isInativo): ?>
+                                                                <a href="<?= $baseUrl ?>?acao=alterar_status_usuario&id=<?= $user['id'] ?>&status=Ativo"
+                                                                class="action-btn action-btn-activate"
+                                                                onclick="return confirm('Deseja liberar o acesso deste funcionário novamente?');">
+                                                                    Ativar
+                                                                </a>
+                                                            <?php else: ?>
+                                                                <?php if ($isAdmin && $_SESSION['usuario_id'] != 36): ?>
+                                                                    <span style="font-size: 12px; color: #999; font-style: italic;">Acesso restrito</span>
+                                                                <?php else: ?>
+                                                                    <a href="<?= $baseUrl ?>?acao=alterar_status_usuario&id=<?= $user['id'] ?>&status=Inativo"
+                                                                    class="action-btn action-btn-deactivate"
+                                                                    onclick="return confirm('Inativar este usuário? Ele perderá acesso ao sistema.');">
+                                                                        Inativar
+                                                                    </a>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+
                                                         <?php endif; ?>
 
-                                                        <?php if ($isInativo): ?>
-                                                            <a href="<?= $baseUrl ?>?acao=alterar_status_usuario&id=<?= $user['id'] ?>&status=Ativo"
-                                                            class="action-btn action-btn-activate"
-                                                            onclick="return confirm('Deseja liberar o acesso deste funcionário novamente?');">
-                                                                Ativar
-                                                            </a>
-                                                        <?php elseif (!$isSelf): ?>
-                                                            <a href="<?= $baseUrl ?>?acao=alterar_status_usuario&id=<?= $user['id'] ?>&status=Inativo"
-                                                            class="action-btn action-btn-deactivate"
-                                                            onclick="return confirm('Inativar este usuário? Ele perderá acesso ao sistema.');">
-                                                                Inativar
-                                                            </a>
-                                                        <?php endif; ?>
-
-                                                    <?php endif; ?>
-
-                                                </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
